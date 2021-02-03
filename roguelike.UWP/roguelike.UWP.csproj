@@ -137,9 +137,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\roguelike.Core\Content\Content.mgcb">
+    <MonoGameContentReference Include="..\roguelike.Core\Content\Content.mgcb">
       <Link>Content\Content.mgcb</Link>
-    </None>
+    </MonoGameContentReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

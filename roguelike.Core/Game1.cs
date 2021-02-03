@@ -9,18 +9,24 @@ namespace roguelike.Core
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        private Player Player { get; set; }
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+
+         
         }
 
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
 
+
             base.Initialize();
+            Player = new Player(this, _spriteBatch);
         }
 
         protected override void LoadContent()
@@ -47,6 +53,11 @@ namespace roguelike.Core
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
+            _spriteBatch.Begin();
+
+            Player.Draw(gameTime);
+
+            _spriteBatch.End();
         }
     }
 }
