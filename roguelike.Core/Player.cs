@@ -18,6 +18,10 @@ namespace roguelike.Core
         protected Vector2 _position;
 
         protected Texture2D _texture;
+
+        public int SpriteWidth { get; set; }
+        public int SpriteHeight { get; set; }
+
         public SpriteBatch SpriteBatch { get; set; }
 
         public float Speed = 5f;
@@ -42,6 +46,8 @@ namespace roguelike.Core
             SpriteBatch = spriteBatch;
             LoadContent();
 
+            SpriteWidth = _animations.Values.First().FrameWidth;
+            SpriteHeight = _animations.Values.First().FrameHeight;
             _animationManager = new AnimationManager(_animations.First().Value);
         }
         protected override void LoadContent()
@@ -59,10 +65,10 @@ namespace roguelike.Core
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
-            if (_texture != null)
-                SpriteBatch.Draw(_texture, Position, Color.White);
-            else if (_animationManager != null)
+            if (_animationManager != null)
                 _animationManager.Draw(SpriteBatch);
+            else if (_texture != null)
+                SpriteBatch.Draw(_texture, Position, Color.White);
             else throw new Exception("No texture and no animationmanager");
         }
 

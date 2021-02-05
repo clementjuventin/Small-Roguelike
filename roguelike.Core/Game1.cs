@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using roguelike.Core.CameraPackage;
 
 namespace roguelike.Core
 {
@@ -9,7 +10,14 @@ namespace roguelike.Core
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        public static int ScreenHeight;
+        public static int ScreenWidth;
+
         private Player Player { get; set; }
+
+        private Camera camera;
+
+        public Texture2D Test;
 
         public Game1()
         {
@@ -20,9 +28,11 @@ namespace roguelike.Core
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            ScreenHeight = _graphics.PreferredBackBufferHeight;
+            ScreenWidth = _graphics.PreferredBackBufferWidth;
 
             base.Initialize();
+
             Player = new Player(this, _spriteBatch);
         }
 
@@ -30,7 +40,9 @@ namespace roguelike.Core
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            Test = Content.Load<Texture2D>("playerSprite/Idle");
+
+            camera = new Camera();
         }
 
         protected override void Update(GameTime gameTime)
@@ -39,6 +51,7 @@ namespace roguelike.Core
                 Exit();
 
             Player.Update(gameTime);
+            camera.Follow(Player);
 
             base.Update(gameTime);
         }
@@ -50,9 +63,12 @@ namespace roguelike.Core
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(transformMatrix: camera.Transform);
 
             Player.Draw(gameTime);
+
+            _spriteBatch.Draw(Test, Vector2.Zero, Color.White);
+            
 
             _spriteBatch.End();
         }
