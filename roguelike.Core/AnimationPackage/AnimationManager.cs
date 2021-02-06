@@ -6,16 +6,18 @@ using System.Text;
 
 namespace roguelike.Core.AnimationPackage
 {
-    class AnimationManager
+    public class AnimationManager
     {
         private Animation _animation;
-
+        private float Scale { get; set; }
         private float _timer;
 
         public Vector2 Position { get; set; }
-        public AnimationManager(Animation animation)
+        public AnimationManager(Animation animation) : this(animation, 1f) { }
+        public AnimationManager(Animation animation, float scale)
         {
             _animation = animation;
+            Scale = scale;
         }
         public void Draw(SpriteBatch spriteBatch, SpriteEffects spriteEffects)
         {
@@ -30,7 +32,7 @@ namespace roguelike.Core.AnimationPackage
                 Color.White,
                 0f,
                 Vector2.Zero,
-                1f,
+                Scale,
                 spriteEffects,
                 0f
                 );
