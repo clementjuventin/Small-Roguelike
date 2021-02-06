@@ -5,7 +5,7 @@ using System.Text;
 
 namespace roguelike.Core.AnimationPackage
 {
-    class Animation
+    public class Animation
     {
         public int CurrentFrame { get; set; }
         public int FrameCount { get; private set; }

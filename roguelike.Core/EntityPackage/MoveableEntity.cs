@@ -5,7 +5,7 @@ using System.Text;
 
 namespace roguelike.Core.EntityPackage
 {
-    class MoveableEntity : DrawableGameComponent, IStatistics
+    public class MoveableEntity : DrawableGameComponent, IStatistics
     {
         protected Vector2 velocity;
         public float Speed { get; set; }
@@ -21,9 +21,6 @@ namespace roguelike.Core.EntityPackage
         public float CriticalChange { get; set; }
         protected Vector2 Velocity { get => velocity; set => velocity = value; }
 
-        public MoveableEntity(Game game) : base(game)
-        {
-        }
         public MoveableEntity(Game game, float speed) : base(game)
         {
             Speed = speed;

@@ -8,7 +8,7 @@ using System.Text;
 
 namespace roguelike.Core.EntityPackage
 {
-    class Entity : MoveableEntity
+    public class Entity : MoveableEntity
     {
         private Vector2 _position;
         public Vector2 Position
@@ -22,21 +22,14 @@ namespace roguelike.Core.EntityPackage
             }
         }
         public SpriteBatch SpriteBatch { get; set; }
-        public EntitySprite EntitySprite { get; set; } = new EntitySprite();
-        public Entity(Game game, SpriteBatch spriteBatch) : base(game)
+        public EntitySprite EntitySprite { get; set; }
+        public Entity(Game game, SpriteBatch spriteBatch, float scale=1f, float speed=5f) : base(game, speed)
         {
+            EntitySprite = new EntitySprite();
             SpriteBatch = spriteBatch;
             LoadContent();
 
-            EntitySprite.AnimationManager = new AnimationManager(EntitySprite.Animation.First().Value);
-        }
-        public Entity(Game game, SpriteBatch spriteBatch, float speed) : base(game, speed)
-        {
-            SpriteBatch = spriteBatch;
-            LoadContent();
-
-            EntitySprite.SetSpriteSize();
-            EntitySprite.AnimationManager = new AnimationManager(EntitySprite.Animation.First().Value);
+            EntitySprite.AnimationManager = new AnimationManager(EntitySprite.Animation.First().Value, scale);
         }
 
         protected override void LoadContent()

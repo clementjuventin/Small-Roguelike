@@ -11,7 +11,7 @@ namespace roguelike.Core
 {
     class PlayerEntity : Entity
     {
-        public PlayerEntity(Game game, SpriteBatch spriteBatch) : base(game, spriteBatch, 5f) { }
+        public PlayerEntity(Game game, SpriteBatch spriteBatch) : base(game, spriteBatch, speed:5f) { }
 
         public Boolean IsOnAttack { get; set; } = false;
         protected override void LoadContent()

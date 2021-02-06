@@ -8,7 +8,7 @@ using System.Text;
 
 namespace roguelike.Core.EntityPackage
 {
-    class EntitySprite
+    public class EntitySprite
     {
         public AnimationManager AnimationManager { get; set; } 
         public Dictionary<string, Animation> Animation { get; set; }

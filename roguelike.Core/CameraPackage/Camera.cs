@@ -16,7 +16,7 @@ namespace roguelike.Core.CameraPackage
         {
             Position = Vector2.Lerp(Position, entity.Position, LERP_AMOUNT);
 
-            Transform = Matrix.CreateTranslation(-(entity.EntitySprite.SpriteWidth / 2 + Position.X), -(entity.EntitySprite.SpriteHeight / 2 + Position.Y), 0);
+            Transform = Matrix.CreateTranslation(entity.EntitySprite.SpriteWidth / 2 - Position.X, entity.EntitySprite.SpriteHeight / 2 - Position.Y, 0);
             Transform *= Matrix.CreateTranslation(Game1.ScreenWidth/2, Game1.ScreenHeight/2, 0);
         }
     }
