@@ -38,7 +38,7 @@ namespace roguelike.Core
 
         protected override void SetAnimations()
         {
-            if (IsOnAttack)
+            if (IsOnAttack && IsOnAction)
             {
                 EntitySprite.AnimationManager.Play(EntitySprite.Animation["Attack1"]);
                 return;
