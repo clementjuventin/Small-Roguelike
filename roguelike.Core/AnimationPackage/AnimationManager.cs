@@ -17,7 +17,7 @@ namespace roguelike.Core.AnimationPackage
         {
             _animation = animation;
         }
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, SpriteEffects spriteEffects)
         {
             spriteBatch.Draw(
                 _animation.Texture,
@@ -27,7 +27,12 @@ namespace roguelike.Core.AnimationPackage
                     0,
                     _animation.FrameWidth,
                     _animation.FrameHeight),
-                Color.White
+                Color.White,
+                0f,
+                new Vector2(_animation.FrameWidth/2,_animation.FrameHeight/2),
+                1f,
+                spriteEffects,
+                0f
                 );
         }
         public void Play(Animation animation)

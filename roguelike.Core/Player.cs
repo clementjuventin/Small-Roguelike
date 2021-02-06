@@ -30,6 +30,8 @@ namespace roguelike.Core
 
         public Boolean IsHitting { get; set; }
 
+        public Boolean IsOnRight { get; set; } = true;
+
         public Vector2 Position
         {
             get { return _position; }
@@ -58,7 +60,6 @@ namespace roguelike.Core
             {
                 {"Idle", new Animation(Game.Content.Load<Texture2D>("playerSprite/Idle"),11) },
                 {"RunRight", new Animation(Game.Content.Load<Texture2D>("playerSprite/RunRight"),8) },
-                {"RunLeft", new Animation(Game.Content.Load<Texture2D>("playerSprite/RunLeft"),8) },
                 {"Attack1", new Animation(Game.Content.Load<Texture2D>("playerSprite/Attack1"),7, false) }
             };
         }
@@ -66,7 +67,8 @@ namespace roguelike.Core
         {
             base.Draw(gameTime);
             if (_animationManager != null)
-                _animationManager.Draw(SpriteBatch);
+                if(IsOnRight) _animationManager.Draw(SpriteBatch, SpriteEffects.None);
+                else _animationManager.Draw(SpriteBatch, SpriteEffects.FlipHorizontally);
             else if (_texture != null)
                 SpriteBatch.Draw(_texture, Position, Color.White);
             else throw new Exception("No texture and no animationmanager");
@@ -118,14 +120,21 @@ namespace roguelike.Core
                 return;
             }
             if (Velocity.X > 0)
+            {
+                IsOnRight = true;
                 _animationManager.Play(_animations["RunRight"]);
+            }   
             else if (Velocity.X < 0)
-                _animationManager.Play(_animations["RunLeft"]);
+            {
+                IsOnRight = false;
+                _animationManager.Play(_animations["RunRight"]);
+            }
             else
             {
-                if (Velocity.Y != 0)
+                if (Velocity.Y == 0)
+                    _animationManager.Play(_animations["Idle"]);
+                else
                     _animationManager.Play(_animations["RunRight"]);
-                else _animationManager.Play(_animations["Idle"]);
             }
         }
     }
