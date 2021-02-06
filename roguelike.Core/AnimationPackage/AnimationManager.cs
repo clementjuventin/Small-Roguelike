@@ -29,7 +29,7 @@ namespace roguelike.Core.AnimationPackage
                     _animation.FrameHeight),
                 Color.White,
                 0f,
-                new Vector2(_animation.FrameWidth/2,_animation.FrameHeight/2),
+                Vector2.Zero,
                 1f,
                 spriteEffects,
                 0f

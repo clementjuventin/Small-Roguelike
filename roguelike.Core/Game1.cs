@@ -13,7 +13,7 @@ namespace roguelike.Core
         public static int ScreenHeight;
         public static int ScreenWidth;
 
-        private Player Player { get; set; }
+        private PlayerEntity Player { get; set; }
 
         private Camera camera;
 
@@ -33,7 +33,7 @@ namespace roguelike.Core
 
             base.Initialize();
 
-            Player = new Player(this, _spriteBatch);
+            Player = new PlayerEntity(this, _spriteBatch);
         }
 
         protected override void LoadContent()
@@ -51,6 +51,7 @@ namespace roguelike.Core
                 Exit();
 
             Player.Update(gameTime);
+
             camera.Follow(Player);
 
             base.Update(gameTime);
