@@ -32,7 +32,7 @@ namespace roguelike.Core.AnimationPackage
                 Color.White,
                 0f,
                 Vector2.Zero,
-                1f,
+                Scale,
                 spriteEffects,
                 0f
                 );
