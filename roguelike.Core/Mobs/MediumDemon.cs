@@ -10,7 +10,7 @@ namespace roguelike.Core.Mobs
 {
     public class MediumDemon : MobEntity
     {
-        public MediumDemon(Game game, SpriteBatch spriteBatch, Entity target) : base(game, spriteBatch, target, 1.5f) { }
+        public MediumDemon(Game game, SpriteBatch spriteBatch, Entity target) : base(game, spriteBatch, target, 1.5f, followDistance:20) { }
         public MediumDemon(Game game, SpriteBatch spriteBatch) : this(game, spriteBatch, null) { }
 
         public Boolean IsOnAttack { get; set; } = false;
@@ -36,6 +36,7 @@ namespace roguelike.Core.Mobs
 
         protected override void SetAnimations()
         {
+            base.SetAnimations();
             EntitySprite.AnimationManager.Play(EntitySprite.Animation["Idle"]);
         }
     }

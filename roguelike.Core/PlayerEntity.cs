@@ -38,6 +38,7 @@ namespace roguelike.Core
 
         protected override void SetAnimations()
         {
+            base.SetAnimations();
             if (IsOnAttack && IsOnAction)
             {
                 EntitySprite.AnimationManager.Play(EntitySprite.Animation["Attack1"]);
@@ -45,12 +46,10 @@ namespace roguelike.Core
             }
             if (Velocity.X > 0)
             {
-                IsOnRight = true;
                 EntitySprite.AnimationManager.Play(EntitySprite.Animation["RunRight"]);
             }
             else if (Velocity.X < 0)
             {
-                IsOnRight = false;
                 EntitySprite.AnimationManager.Play(EntitySprite.Animation["RunRight"]);
             }
             else

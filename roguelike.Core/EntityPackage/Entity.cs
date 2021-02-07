@@ -63,6 +63,16 @@ namespace roguelike.Core.EntityPackage
             Velocity = Vector2.Zero;
         }
 
-        protected virtual void SetAnimations() { }
+        protected virtual void SetAnimations()
+        {
+            if (Velocity.X > 0)
+            {
+                IsOnRight = true;
+            }
+            if (Velocity.X < 0)
+            {
+                IsOnRight = false;
+            }
+        }
     }
 }
