@@ -15,12 +15,12 @@ namespace roguelike.Core.AnimationPackage
         public bool IsLopping { get; set; }
         public Texture2D Texture { get; private set; }
 
-        public Animation(Texture2D texture, int frameCount)
+        public Animation(Texture2D texture, int frameCount, float frameSpeed = 0.05f)
         {
             Texture = texture;
             FrameCount = frameCount;
             IsLopping = true;
-            FrameSpeed = 0.05f;
+            FrameSpeed = frameSpeed;
         }
         public Animation(Texture2D texture, int frameCount, Boolean isLopping)
         {

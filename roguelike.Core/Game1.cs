@@ -53,6 +53,10 @@ namespace roguelike.Core
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            foreach (Entity entity in Mobs)
+            {
+                entity.Update(gameTime);
+            }
             Player.Update(gameTime);
 
             camera.Follow(Player);
@@ -69,12 +73,11 @@ namespace roguelike.Core
             base.Draw(gameTime);
             _spriteBatch.Begin(transformMatrix: camera.Transform);
 
-            Player.Draw(gameTime);
-
             foreach (Entity entity in Mobs)
             {
                 entity.Draw(gameTime);
             }
+            Player.Draw(gameTime);
 
             _spriteBatch.End();
         }

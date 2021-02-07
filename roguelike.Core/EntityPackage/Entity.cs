@@ -30,6 +30,7 @@ namespace roguelike.Core.EntityPackage
             LoadContent();
 
             EntitySprite.AnimationManager = new AnimationManager(EntitySprite.Animation.First().Value, scale);
+            EntitySprite.SetSpriteSize();
         }
 
         protected override void LoadContent()
