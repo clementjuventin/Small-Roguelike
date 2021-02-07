@@ -8,9 +8,10 @@ using System.Text;
 
 namespace roguelike.Core.Mobs
 {
-    public class MediumDemonEntity : Entity
+    public class MediumDemon : MobEntity
     {
-        public MediumDemonEntity(Game game, SpriteBatch spriteBatch) : base(game, spriteBatch, 1.5f) { }
+        public MediumDemon(Game game, SpriteBatch spriteBatch, Entity target) : base(game, spriteBatch, target, 1.5f) { }
+        public MediumDemon(Game game, SpriteBatch spriteBatch) : this(game, spriteBatch, null) { }
 
         public Boolean IsOnAttack { get; set; } = false;
         protected override void LoadContent()
@@ -36,11 +37,6 @@ namespace roguelike.Core.Mobs
         protected override void SetAnimations()
         {
             EntitySprite.AnimationManager.Play(EntitySprite.Animation["Idle"]);
-        }
-
-        public override void Move()
-        {
-            
         }
     }
 }

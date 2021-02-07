@@ -38,7 +38,8 @@ namespace roguelike.Core
 
             Player = new PlayerEntity(this, _spriteBatch);
 
-            Mobs.Add(new MediumDemonEntity(this, _spriteBatch));
+            Mobs.Add(new MediumDemon(this, _spriteBatch, Player));
+            Mobs.Add(new MediumSkeleton(this, _spriteBatch, Player));
         }
 
         protected override void LoadContent()
