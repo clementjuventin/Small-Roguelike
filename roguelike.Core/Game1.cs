@@ -39,7 +39,7 @@ namespace roguelike.Core
             Player = new PlayerEntity(this, _spriteBatch);
 
             Mobs.Add(new MediumDemon(this, _spriteBatch, Player));
-            Mobs.Add(new MediumSkeleton(this, _spriteBatch, Player));
+            //Mobs.Add(new MediumSkeleton(this, _spriteBatch, Player));
         }
 
         protected override void LoadContent()
@@ -59,6 +59,18 @@ namespace roguelike.Core
                 entity.Update(gameTime);
             }
             Player.Update(gameTime);
+
+            List<Entity> allEntities = new List<Entity>(Mobs);
+            allEntities.Add(Player);
+
+            foreach (Entity entity in allEntities)
+            {
+                foreach (Entity other in allEntities)
+                {
+                    entity.CollisionHandler(other.HitBox);
+                }
+                entity.UpdatePosition();
+            }
 
             camera.Follow(Player);
 

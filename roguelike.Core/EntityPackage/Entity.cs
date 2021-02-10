@@ -24,7 +24,22 @@ namespace roguelike.Core.EntityPackage
         public SpriteBatch SpriteBatch { get; set; }
         public EntitySprite EntitySprite { get; set; }
 
-        public Rectangle HitBox { get; set; } = new Rectangle();
+        public Rectangle HitBox
+        {
+            get
+            {
+                return new Rectangle((int)Position.X, (int)Position.Y, EntitySprite.SpriteWidth, EntitySprite.SpriteHeight);
+            }
+        }
+
+        public void CollisionHandler(Rectangle other)
+        {
+            if (other == HitBox) return;
+            if (HitBox.Intersects(other))
+            {
+                base.AddForce(0.9f, Vector2.Negate(Velocity));
+            }
+        }
 
         public Entity(Game game, SpriteBatch spriteBatch, float scale=1f, float speed=5f) : base(game, speed)
         {
@@ -54,16 +69,19 @@ namespace roguelike.Core.EntityPackage
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-
+            Velocity = Vector2.Zero;
             Move();
 
             try { EntitySprite.AnimationManager.Update(gameTime); }
             catch (InvalidOperationException) { IsOnAction = false; }
 
             SetAnimations();
+        }
 
+        public void UpdatePosition()
+        {
+            base.ApplyForce();
             Position += Velocity;
-            Velocity = Vector2.Zero;
         }
 
         protected virtual void SetAnimations()
