@@ -20,9 +20,7 @@ namespace roguelike.Core
 
             EntitySprite.Animation = new Dictionary<string, Animation>()
             {
-                {"Idle", new Animation(Game.Content.Load<Texture2D>("playerSprite/Idle"),11) },
-                {"RunRight", new Animation(Game.Content.Load<Texture2D>("playerSprite/RunRight"),8) },
-                {"Attack1", new Animation(Game.Content.Load<Texture2D>("playerSprite/Attack1"),7, false) }
+                {"Idle", new Animation(Game.Content.Load<Texture2D>("playerSprite/knightPlayer"),8) }
             };
         }
 
@@ -39,6 +37,8 @@ namespace roguelike.Core
         protected override void SetAnimations()
         {
             base.SetAnimations();
+            EntitySprite.AnimationManager.Play(EntitySprite.Animation["Idle"]);
+            /*
             if (IsOnAttack && IsOnAction)
             {
                 EntitySprite.AnimationManager.Play(EntitySprite.Animation["Attack1"]);
@@ -59,6 +59,7 @@ namespace roguelike.Core
                 else
                     EntitySprite.AnimationManager.Play(EntitySprite.Animation["RunRight"]);
             }
+            */
         }
 
         public override void Move()

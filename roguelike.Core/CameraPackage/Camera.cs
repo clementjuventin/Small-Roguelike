@@ -9,6 +9,8 @@ namespace roguelike.Core.CameraPackage
     class Camera
     {
         private const float LERP_AMOUNT = 0.06f;
+        private const float ZOOM = 2f;
+
         public Matrix Transform { get; set; }
         public Vector2 Position { get; set; }
 
@@ -16,8 +18,9 @@ namespace roguelike.Core.CameraPackage
         {
             Position = Vector2.Lerp(Position, entity.Position, LERP_AMOUNT);
 
-            Transform = Matrix.CreateTranslation(-(entity.EntitySprite.SpriteWidth / 2 + Position.X), -(entity.EntitySprite.SpriteHeight / 2 + Position.Y), 0);
-            Transform *= Matrix.CreateTranslation(Game1.ScreenWidth/2, Game1.ScreenHeight/2, 0);
+            Transform = Matrix.CreateTranslation(-(entity.EntitySprite.SpriteWidth / 2 + Position.X), -(entity.EntitySprite.SpriteHeight / 2 + Position.Y), 0f);
+            Transform *= Matrix.CreateScale(ZOOM);
+            Transform *= Matrix.CreateTranslation(Game1.ScreenWidth/2, Game1.ScreenHeight/2, 0f);
         }
     }
 }

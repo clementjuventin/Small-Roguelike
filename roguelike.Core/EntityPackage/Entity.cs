@@ -23,6 +23,9 @@ namespace roguelike.Core.EntityPackage
         }
         public SpriteBatch SpriteBatch { get; set; }
         public EntitySprite EntitySprite { get; set; }
+
+        public Rectangle HitBox { get; set; } = new Rectangle();
+
         public Entity(Game game, SpriteBatch spriteBatch, float scale=1f, float speed=5f) : base(game, speed)
         {
             EntitySprite = new EntitySprite();
