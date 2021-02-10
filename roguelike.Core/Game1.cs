@@ -72,7 +72,8 @@ namespace roguelike.Core
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
-            _spriteBatch.Begin(transformMatrix: camera.Transform);
+
+            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, camera.Transform);
 
             foreach (Entity entity in Mobs)
             {

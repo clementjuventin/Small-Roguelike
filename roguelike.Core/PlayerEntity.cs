@@ -11,7 +11,7 @@ namespace roguelike.Core
 {
     class PlayerEntity : Entity
     {
-        public PlayerEntity(Game game, SpriteBatch spriteBatch) : base(game, spriteBatch, speed:5f) { }
+        public PlayerEntity(Game game, SpriteBatch spriteBatch) : base(game, spriteBatch, speed:3f) { }
 
         public Boolean IsOnAttack { get; set; } = false;
         protected override void LoadContent()
@@ -38,28 +38,6 @@ namespace roguelike.Core
         {
             base.SetAnimations();
             EntitySprite.AnimationManager.Play(EntitySprite.Animation["Idle"]);
-            /*
-            if (IsOnAttack && IsOnAction)
-            {
-                EntitySprite.AnimationManager.Play(EntitySprite.Animation["Attack1"]);
-                return;
-            }
-            if (Velocity.X > 0)
-            {
-                EntitySprite.AnimationManager.Play(EntitySprite.Animation["RunRight"]);
-            }
-            else if (Velocity.X < 0)
-            {
-                EntitySprite.AnimationManager.Play(EntitySprite.Animation["RunRight"]);
-            }
-            else
-            {
-                if (Velocity.Y == 0)
-                    EntitySprite.AnimationManager.Play(EntitySprite.Animation["Idle"]);
-                else
-                    EntitySprite.AnimationManager.Play(EntitySprite.Animation["RunRight"]);
-            }
-            */
         }
 
         public override void Move()
