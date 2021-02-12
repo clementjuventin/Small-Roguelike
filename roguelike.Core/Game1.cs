@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using roguelike.Core.CameraPackage;
 using roguelike.Core.EntityPackage;
 using roguelike.Core.Mobs;
+using roguelike.Core.WeaponPackage;
 using System.Collections.Generic;
 
 namespace roguelike.Core
@@ -22,6 +23,8 @@ namespace roguelike.Core
 
         private Camera camera;
 
+        Texture2D Test { get; set; }
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -36,7 +39,7 @@ namespace roguelike.Core
 
             base.Initialize();
 
-            Player = new PlayerEntity(this, _spriteBatch);
+            Player = new PlayerEntity(this, _spriteBatch, new FireSword(this, _spriteBatch));
 
             Mobs.Add(new MediumDemon(this, _spriteBatch, Player));
             //Mobs.Add(new MediumSkeleton(this, _spriteBatch, Player));
@@ -45,6 +48,8 @@ namespace roguelike.Core
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            Test = Content.Load<Texture2D>("playerSprite/knightPlayer");
 
             camera = new Camera();
         }
@@ -92,6 +97,8 @@ namespace roguelike.Core
                 entity.Draw(gameTime);
             }
             Player.Draw(gameTime);
+
+            _spriteBatch.Draw(Test, Vector2.Zero, Color.White);
 
             _spriteBatch.End();
         }

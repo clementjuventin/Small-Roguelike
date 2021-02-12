@@ -3,17 +3,17 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using roguelike.Core.AnimationPackage;
 using roguelike.Core.EntityPackage;
+using roguelike.Core.WeaponPackage;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace roguelike.Core
 {
-    class PlayerEntity : Entity
+    class PlayerEntity : WeaponHolder
     {
-        public PlayerEntity(Game game, SpriteBatch spriteBatch) : base(game, spriteBatch, speed:3f) { }
+        public PlayerEntity(Game game, SpriteBatch spriteBatch, Weapon weapon) : base(game, spriteBatch, weapon, speed:3f) { }
 
-        public Boolean IsOnAttack { get; set; } = false;
         protected override void LoadContent()
         {
             base.LoadContent();
@@ -27,11 +27,6 @@ namespace roguelike.Core
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-
-            if (IsOnAction == false)
-            {
-                IsOnAttack = false;
-            }
         }
 
         protected override void SetAnimations()
@@ -42,6 +37,7 @@ namespace roguelike.Core
 
         public override void Move()
         {
+            base.Move();
             if (IsOnAction) return;
 
             if (Keyboard.GetState().IsKeyDown(Keys.Up))

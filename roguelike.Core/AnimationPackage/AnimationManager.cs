@@ -11,6 +11,7 @@ namespace roguelike.Core.AnimationPackage
         private Animation _animation;
         private float Scale { get; set; }
         private float _timer;
+        public float Angle { get; set; } = 0;
 
         public Vector2 Position { get; set; }
         public AnimationManager(Animation animation) : this(animation, 1f) { }
@@ -30,7 +31,7 @@ namespace roguelike.Core.AnimationPackage
                     _animation.FrameWidth,
                     _animation.FrameHeight),
                 Color.White,
-                0f,
+                Angle,
                 Vector2.Zero,
                 Scale,
                 spriteEffects,

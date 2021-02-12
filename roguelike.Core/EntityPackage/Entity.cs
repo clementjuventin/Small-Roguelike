@@ -34,11 +34,13 @@ namespace roguelike.Core.EntityPackage
 
         public void CollisionHandler(Rectangle other)
         {
+            /*
             if (other == HitBox) return;
             if (HitBox.Intersects(other))
             {
                 base.AddForce(0.9f, Vector2.Negate(Velocity));
             }
+            */
         }
 
         public Entity(Game game, SpriteBatch spriteBatch, float scale=1f, float speed=5f) : base(game, speed)
