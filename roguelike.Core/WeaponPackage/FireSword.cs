@@ -19,7 +19,8 @@ namespace roguelike.Core.WeaponPackage
 
             Sprite.Animation = new Dictionary<string, Animation>()
             {
-                {"Idle", new Animation(Game.Content.Load<Texture2D>("swords/sword1"),1) }
+                { "Right", new Animation(Game.Content.Load<Texture2D>("swords/sword1Right"),1) },
+                { "Left", new Animation(Game.Content.Load<Texture2D>("swords/sword1Left"),1) }
             };
         }
     }

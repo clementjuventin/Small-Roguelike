@@ -29,14 +29,15 @@ namespace roguelike.Core.WeaponPackage
             SetAnimation();
             base.Draw(gameTime);
             if (Sprite.AnimationManager != null)
-                if (IsOnRight) Sprite.AnimationManager.Draw(SpriteBatch, SpriteEffects.None);
-                else Sprite.AnimationManager.Draw(SpriteBatch, SpriteEffects.FlipHorizontally);
+                Sprite.AnimationManager.Draw(SpriteBatch, SpriteEffects.None);
             else throw new Exception("No texture and no animationmanager");
         }
 
         public void SetAnimation()
         {
-            Sprite.AnimationManager.Play(Sprite.Animation["Idle"]);
+            if (IsOnRight)
+                Sprite.AnimationManager.Play(Sprite.Animation["Right"]);
+            else Sprite.AnimationManager.Play(Sprite.Animation["Left"]);
         }
     }
 }

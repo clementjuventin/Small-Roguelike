@@ -12,6 +12,7 @@ namespace roguelike.Core.AnimationPackage
         private float Scale { get; set; }
         private float _timer;
         public float Angle { get; set; } = 0;
+        public Vector2 RotationOrigin { get; set; }
 
         public Vector2 Position { get; set; }
         public AnimationManager(Animation animation) : this(animation, 1f) { }
@@ -19,6 +20,7 @@ namespace roguelike.Core.AnimationPackage
         {
             _animation = animation;
             Scale = scale;
+            RotationOrigin = new Vector2(animation.FrameWidth / 2, animation.FrameHeight / 2);
         }
         public void Draw(SpriteBatch spriteBatch, SpriteEffects spriteEffects)
         {
@@ -32,7 +34,7 @@ namespace roguelike.Core.AnimationPackage
                     _animation.FrameHeight),
                 Color.White,
                 Angle,
-                Vector2.Zero,
+                RotationOrigin,
                 Scale,
                 spriteEffects,
                 0f

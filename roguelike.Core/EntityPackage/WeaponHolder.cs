@@ -20,10 +20,19 @@ namespace roguelike.Core.EntityPackage
         {
             base.Update(gameTime);
 
-            Weapon.Sprite.AnimationManager.Position = new Vector2(Position.X + Weapon.Sprite.SpriteWidth/2*(IsOnRight?1:-1), Position.Y - EntitySprite.SpriteHeight / 4f);
+            Weapon.Sprite.AnimationManager.Position = new Vector2(Position.X + (IsOnRight?1:-1)*EntitySprite.SpriteWidth, Position.Y - EntitySprite.SpriteHeight/6);
             Weapon.IsOnRight = !IsOnRight;
 
-            Weapon.Sprite.AnimationManager.Angle += 0.2f;
+            if (!IsOnRight)
+            {
+                Weapon.Sprite.AnimationManager.RotationOrigin = new Vector2(-EntitySprite.SpriteWidth*2, EntitySprite.SpriteWidth);
+                Weapon.Sprite.AnimationManager.Angle -= 0.05f;
+            }
+            else
+            {
+                Weapon.Sprite.AnimationManager.RotationOrigin = new Vector2(0f, EntitySprite.SpriteWidth);
+                Weapon.Sprite.AnimationManager.Angle += 0.05f;
+            }
         }
 
         public override void Draw(GameTime gameTime)
@@ -34,10 +43,10 @@ namespace roguelike.Core.EntityPackage
         }
         public override void Move()
         {
-            if (IsOnAction) return;
+            base.Move();
 
             if (Keyboard.GetState().IsKeyDown(Keys.Enter)) { }
-                //velocity.Y += -Speed;
+                
         }
     }
 }
