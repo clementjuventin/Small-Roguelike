@@ -37,7 +37,9 @@ namespace roguelike.Core.EntityPackage
             if (other == HitBox) return;
             if (HitBox.Intersects(other))
             {
-                base.AddForce(0.9f, Vector2.Negate(Velocity));
+                Vector2 direction = Velocity * 3 * (Position - new Vector2(other.Location.X + other.Width / 2, other.Location.Y + other.Height / 2));
+                direction.Normalize();
+                base.AddForce(0.7f, direction);
             }
         }
 
@@ -65,11 +67,6 @@ namespace roguelike.Core.EntityPackage
             rect.SetData(data);
             SpriteBatch.Draw(rect, HitBox, Color.White);
             */
-            Texture2D rect = new Texture2D(GraphicsDevice, 80, 30);
-            Color[] data = new Color[80 * 30];
-            for (int i = 0; i < data.Length; ++i) data[i] = Color.Beige;
-            rect.SetData(data);
-            SpriteBatch.Draw(rect, HitBox, Color.White);
 
             if (EntitySprite.AnimationManager != null)
                 if (IsOnRight) EntitySprite.AnimationManager.Draw(SpriteBatch, SpriteEffects.None);

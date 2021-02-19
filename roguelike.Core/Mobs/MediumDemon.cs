@@ -10,7 +10,7 @@ namespace roguelike.Core.Mobs
 {
     public class MediumDemon : MobEntity
     {
-        public MediumDemon(Game game, SpriteBatch spriteBatch, Entity target) : base(game, spriteBatch, target, 1, followDistance:5) { }
+        public MediumDemon(Game game, SpriteBatch spriteBatch, Entity target) : base(game, spriteBatch, target, 1, followDistance:10) { }
         public MediumDemon(Game game, SpriteBatch spriteBatch) : this(game, spriteBatch, null) { }
 
         public Boolean IsOnAttack { get; set; } = false;

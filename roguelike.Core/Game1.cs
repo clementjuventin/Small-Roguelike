@@ -23,7 +23,7 @@ namespace roguelike.Core
 
         private Camera camera;
 
-        Texture2D Test { get; set; }
+        Texture2D Map { get; set; }
 
         public Game1()
         {
@@ -49,7 +49,7 @@ namespace roguelike.Core
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            Test = Content.Load<Texture2D>("playerSprite/knightPlayer");
+            Map = Content.Load<Texture2D>("MAP");
 
             camera = new Camera();
         }
@@ -101,13 +101,13 @@ namespace roguelike.Core
 
             _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, camera.Transform);
 
+            _spriteBatch.Draw(Map, Vector2.Zero, Color.White);
+
             foreach (Entity entity in Mobs)
             {
                 entity.Draw(gameTime);
             }
             Player.Draw(gameTime);
-
-            _spriteBatch.Draw(Test, Vector2.Zero, Color.White);
 
             _spriteBatch.End();
         }

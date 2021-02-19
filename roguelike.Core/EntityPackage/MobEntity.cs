@@ -15,7 +15,7 @@ namespace roguelike.Core.EntityPackage
         public float FollowDistance { get; set; }
 
         public MobEntity(Game game, SpriteBatch spriteBatch, float scale = 1, float speed = 2) : this(game, spriteBatch, null, scale, speed) { }
-        public MobEntity(Game game, SpriteBatch spriteBatch, Entity target, float scale = 1, float speed = 2, float followDistance = 0) : base(game, spriteBatch, scale, speed)
+        public MobEntity(Game game, SpriteBatch spriteBatch, Entity target, float scale = 1, float speed = 2, float followDistance = 10f) : base(game, spriteBatch, scale, speed)
         {
             FollowDistance = followDistance;
             Target = target;
