@@ -28,19 +28,17 @@ namespace roguelike.Core.EntityPackage
         {
             get
             {
-                return new Rectangle((int)Position.X, (int)Position.Y, EntitySprite.SpriteWidth, EntitySprite.SpriteHeight);
+                return new Rectangle((int)Position.X - EntitySprite.SpriteWidth/2, (int)Position.Y - EntitySprite.SpriteHeight / 2, EntitySprite.SpriteWidth, EntitySprite.SpriteHeight);
             }
         }
 
         public void CollisionHandler(Rectangle other)
         {
-            /*
             if (other == HitBox) return;
             if (HitBox.Intersects(other))
             {
                 base.AddForce(0.9f, Vector2.Negate(Velocity));
             }
-            */
         }
 
         public Entity(Game game, SpriteBatch spriteBatch, float scale=1f, float speed=5f) : base(game, speed)
@@ -60,6 +58,19 @@ namespace roguelike.Core.EntityPackage
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
+            /*DrawHitbox
+            Texture2D rect = new Texture2D(GraphicsDevice, 80, 30);
+            Color[] data = new Color[80 * 30];
+            for (int i = 0; i < data.Length; ++i) data[i] = Color.Beige;
+            rect.SetData(data);
+            SpriteBatch.Draw(rect, HitBox, Color.White);
+            */
+            Texture2D rect = new Texture2D(GraphicsDevice, 80, 30);
+            Color[] data = new Color[80 * 30];
+            for (int i = 0; i < data.Length; ++i) data[i] = Color.Beige;
+            rect.SetData(data);
+            SpriteBatch.Draw(rect, HitBox, Color.White);
+
             if (EntitySprite.AnimationManager != null)
                 if (IsOnRight) EntitySprite.AnimationManager.Draw(SpriteBatch, SpriteEffects.None);
                 else EntitySprite.AnimationManager.Draw(SpriteBatch, SpriteEffects.FlipHorizontally);
@@ -78,6 +89,8 @@ namespace roguelike.Core.EntityPackage
             catch (InvalidOperationException) { IsOnAction = false; }
 
             SetAnimations();
+
+            UpdatePosition();
         }
 
         public void UpdatePosition()

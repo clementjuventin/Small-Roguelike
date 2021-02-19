@@ -66,6 +66,15 @@ namespace roguelike.Core
             Player.Update(gameTime);
 
             List<Entity> allEntities = new List<Entity>(Mobs);
+
+            if(Player.IsHitting())
+            {
+                foreach (Entity entity in allEntities)
+                {
+                    entity.CollisionHandler(Player.WeaponHitBox);
+                }
+            }
+            /*
             allEntities.Add(Player);
 
             foreach (Entity entity in allEntities)
@@ -76,7 +85,7 @@ namespace roguelike.Core
                 }
                 entity.UpdatePosition();
             }
-
+            */
             camera.Follow(Player);
 
             base.Update(gameTime);

@@ -18,11 +18,13 @@ namespace roguelike.Core.EntityPackage
         }
         public float WeaponAngle { get; set; } = 0;
         private Boolean _isHitting;
+        public Rectangle WeaponHitBox { get; set; }
         public Boolean IsHitting() { return _isHitting; }
         public void SetIsHitting(Boolean isHitting) 
         {
             if (isHitting)
             {
+                WeaponHitBox = new Rectangle((int) Position.X + EntitySprite.SpriteWidth/2 * (IsOnRight?1:-3), (int) Position.Y - EntitySprite.SpriteHeight, EntitySprite.SpriteWidth, EntitySprite.SpriteHeight * 2);
                 WeaponAngle = 0.3f * (IsOnRight? -1:1);
                 Weapon.Sprite.AnimationManager.Angle = 0.3f * (IsOnRight ? -1 : 1);
             }
@@ -69,6 +71,13 @@ namespace roguelike.Core.EntityPackage
                 SetIsHitting(false);
             }
             Weapon.Sprite.AnimationManager.Position = new Vector2(xOffset - (float)Math.Cos(WeaponAngle + relativeAngle) * len, yOffset - (float)Math.Sin(WeaponAngle + relativeAngle) * len);
+        
+            
+            if (IsHitting())
+            {
+
+            }
+        
         }
 
         public override void Draw(GameTime gameTime)
@@ -76,6 +85,16 @@ namespace roguelike.Core.EntityPackage
             base.Draw(gameTime);
 
             Weapon.Draw(gameTime);
+            /*Draw hitboxweapon
+            Texture2D rect = new Texture2D(GraphicsDevice, 80, 30);
+
+            Color[] data = new Color[80 * 30];
+            for (int i = 0; i < data.Length; ++i) data[i] = Color.Chocolate;
+            rect.SetData(data);
+
+
+            SpriteBatch.Draw(rect, WeaponHitBox, Color.White);
+            */
         }
         public override void Move()
         {
