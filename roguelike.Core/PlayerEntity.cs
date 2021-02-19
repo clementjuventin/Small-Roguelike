@@ -38,8 +38,6 @@ namespace roguelike.Core
         public override void Move()
         {
             base.Move();
-            if (IsOnAction) return;
-
             if (Keyboard.GetState().IsKeyDown(Keys.Up))
                 velocity.Y += -Speed;
             if (Keyboard.GetState().IsKeyDown(Keys.Down))
@@ -48,11 +46,6 @@ namespace roguelike.Core
                 velocity.X += -Speed;
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
                 velocity.X += Speed;
-            if (Keyboard.GetState().IsKeyDown(Keys.Enter))
-            {
-                IsOnAttack = true;
-                IsOnAction = true;
-            }
         }
     }
 }

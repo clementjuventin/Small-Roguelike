@@ -16,23 +16,59 @@ namespace roguelike.Core.EntityPackage
         {
             Weapon = weapon;
         }
+        public float WeaponAngle { get; set; } = 0;
+        private Boolean _isHitting;
+        public Boolean IsHitting() { return _isHitting; }
+        public void SetIsHitting(Boolean isHitting) 
+        {
+            if (isHitting)
+            {
+                WeaponAngle = 0.3f * (IsOnRight? -1:1);
+                Weapon.Sprite.AnimationManager.Angle = 0.3f * (IsOnRight ? -1 : 1);
+            }
+            else
+            {
+                WeaponAngle = 0;
+                Weapon.Sprite.AnimationManager.Angle = 0;
+            }
+            _isHitting = isHitting;
+        }
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
 
-            Weapon.Sprite.AnimationManager.Position = new Vector2(Position.X + (IsOnRight?1:-1)*EntitySprite.SpriteWidth, Position.Y - EntitySprite.SpriteHeight/6);
             Weapon.IsOnRight = !IsOnRight;
+
+            float xOffset;
+            float yOffset = Position.Y - EntitySprite.SpriteHeight / 6;
+            float len = EntitySprite.SpriteWidth * 3;
+
+            float relativeAngle = 0;
 
             if (!IsOnRight)
             {
-                Weapon.Sprite.AnimationManager.RotationOrigin = new Vector2(-EntitySprite.SpriteWidth*2, EntitySprite.SpriteWidth);
-                Weapon.Sprite.AnimationManager.Angle -= 0.05f;
+                xOffset = Position.X + EntitySprite.SpriteWidth * 2;
+                if (IsHitting())
+                {
+                    Weapon.Sprite.AnimationManager.Angle -= 0.1f * 2;
+                    WeaponAngle -= 0.1f;
+                }
             }
             else
             {
-                Weapon.Sprite.AnimationManager.RotationOrigin = new Vector2(0f, EntitySprite.SpriteWidth);
-                Weapon.Sprite.AnimationManager.Angle += 0.05f;
+                xOffset = Position.X - EntitySprite.SpriteWidth * 2;
+                relativeAngle = (float) Math.PI;
+                if (IsHitting())
+                {
+                    Weapon.Sprite.AnimationManager.Angle += 0.1f * 2;
+                    WeaponAngle += 0.1f;
+                }
             }
+            if((WeaponAngle <(float) - Math.PI/5 && !IsOnRight) || (WeaponAngle > (float) Math.PI / 5 && IsOnRight))
+            {
+                SetIsHitting(false);
+            }
+            Weapon.Sprite.AnimationManager.Position = new Vector2(xOffset - (float)Math.Cos(WeaponAngle + relativeAngle) * len, yOffset - (float)Math.Sin(WeaponAngle + relativeAngle) * len);
         }
 
         public override void Draw(GameTime gameTime)
@@ -44,8 +80,11 @@ namespace roguelike.Core.EntityPackage
         public override void Move()
         {
             base.Move();
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Enter)) { }
+            if (IsHitting()) return;
+            if (Keyboard.GetState().IsKeyDown(Keys.Enter)) 
+            {
+                SetIsHitting(true);
+            }
                 
         }
     }
