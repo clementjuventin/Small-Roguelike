@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using roguelike.Core.CameraPackage;
 using roguelike.Core.EntityPackage;
+using roguelike.Core.MapPackage;
 using roguelike.Core.Mobs;
 using roguelike.Core.WeaponPackage;
 using System.Collections.Generic;
@@ -22,6 +23,8 @@ namespace roguelike.Core
         private List<Entity> Mobs { get; set; } = new List<Entity>();
 
         private Camera camera;
+
+        private ModelBuilder model = new ModelBuilder(40, 0.9999, 0.2);
 
         Texture2D Map { get; set; }
 
@@ -108,6 +111,8 @@ namespace roguelike.Core
                 entity.Draw(gameTime);
             }
             Player.Draw(gameTime);
+
+            //model.Draw(_spriteBatch, GraphicsDevice);
 
             _spriteBatch.End();
         }
