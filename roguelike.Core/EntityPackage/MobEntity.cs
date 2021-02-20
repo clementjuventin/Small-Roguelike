@@ -15,7 +15,7 @@ namespace roguelike.Core.EntityPackage
         public float FollowDistance { get; set; }
 
         public MobEntity(Game game, SpriteBatch spriteBatch, float scale = 1, float speed = 2) : this(game, spriteBatch, null, scale, speed) { }
-        public MobEntity(Game game, SpriteBatch spriteBatch, Entity target, float scale = 1, float speed = 2, float followDistance = 10f) : base(game, spriteBatch, scale, speed)
+        public MobEntity(Game game, SpriteBatch spriteBatch, Entity target, float scale = 1, float speed = 2, float followDistance = 20f) : base(game, spriteBatch, scale, speed)
         {
             FollowDistance = followDistance;
             Target = target;
@@ -25,8 +25,8 @@ namespace roguelike.Core.EntityPackage
         {
             if (Target == null) return;
 
-            Vector2 targetPosition = new Vector2(Target.Position.X + Target.EntitySprite.SpriteWidth / 2, Target.Position.Y + Target.EntitySprite.SpriteHeight / 2);
-            Distance = targetPosition - new Vector2(Position.X + EntitySprite.SpriteWidth / 2, Position.Y + EntitySprite.SpriteHeight / 2);
+            Vector2 targetPosition = new Vector2(Target.HitBox.Center.X, Target.HitBox.Center.Y);
+            Distance = targetPosition - new Vector2(HitBox.Center.X, HitBox.Center.Y);
             Rotation = (float)Math.Atan2(Distance.Y, Distance.X);
 
             Direction = new Vector2((float)Math.Cos(Rotation), (float)Math.Sin(Rotation));
@@ -39,6 +39,7 @@ namespace roguelike.Core.EntityPackage
 
                 Follow(t);
             }
+            else velocity = Vector2.Zero;
         }
         public virtual void Follow(float t)
         {

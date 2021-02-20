@@ -37,9 +37,10 @@ namespace roguelike.Core.EntityPackage
             if (other == HitBox) return;
             if (HitBox.Intersects(other))
             {
-                Vector2 direction = Velocity * 3 * (Position - new Vector2(other.Location.X + other.Width / 2, other.Location.Y + other.Height / 2));
-                direction.Normalize();
-                base.AddForce(0.7f, direction);
+                var dir =  Position -new Vector2(other.Center.X, other.Center.Y);
+                dir.Normalize();
+                Vector2 direction = Velocity * 3 * (-dir);
+                base.AddForce(0.85f, direction);
             }
         }
 
