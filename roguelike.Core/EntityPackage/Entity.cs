@@ -39,7 +39,7 @@ namespace roguelike.Core.EntityPackage
             {
                 var dir =  Position -new Vector2(other.Center.X, other.Center.Y);
                 dir.Normalize();
-                Vector2 direction = Velocity * 3 * (-dir);
+                Vector2 direction = Velocity * 20 * (-dir);
                 base.AddForce(0.85f, direction);
             }
         }
