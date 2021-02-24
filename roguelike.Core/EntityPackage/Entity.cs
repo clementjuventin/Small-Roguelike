@@ -61,13 +61,13 @@ namespace roguelike.Core.EntityPackage
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
-            /*DrawHitbox
+            
             Texture2D rect = new Texture2D(GraphicsDevice, 80, 30);
             Color[] data = new Color[80 * 30];
             for (int i = 0; i < data.Length; ++i) data[i] = Color.Beige;
             rect.SetData(data);
             SpriteBatch.Draw(rect, HitBox, Color.White);
-            */
+            
 
             if (EntitySprite.AnimationManager != null)
                 if (IsOnRight) EntitySprite.AnimationManager.Draw(SpriteBatch, SpriteEffects.None);

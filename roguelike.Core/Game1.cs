@@ -113,7 +113,6 @@ namespace roguelike.Core
             Player.Draw(gameTime);
 
             //model.Draw(_spriteBatch, GraphicsDevice);
-
             _spriteBatch.End();
         }
     }

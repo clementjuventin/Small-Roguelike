@@ -25,7 +25,7 @@ namespace roguelike.Core.MapPackage
             if (Neighbour.Contains(neighbour)) return;
             Neighbour.Add(neighbour);
         }
-        public BuildRoom()
+        public void BuildRoom()
         {
 
         }

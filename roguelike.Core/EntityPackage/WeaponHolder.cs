@@ -85,7 +85,7 @@ namespace roguelike.Core.EntityPackage
             base.Draw(gameTime);
 
             Weapon.Draw(gameTime);
-            /*Draw hitboxweapon
+
             Texture2D rect = new Texture2D(GraphicsDevice, 80, 30);
 
             Color[] data = new Color[80 * 30];
@@ -94,7 +94,7 @@ namespace roguelike.Core.EntityPackage
 
 
             SpriteBatch.Draw(rect, WeaponHitBox, Color.White);
-            */
+            
         }
         public override void Move()
         {
