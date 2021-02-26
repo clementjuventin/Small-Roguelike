@@ -24,9 +24,7 @@ namespace roguelike.Core
 
         private Camera camera;
 
-        private ModelBuilder model = new ModelBuilder(40, 0.9999, 0.2);
-
-        Texture2D Map { get; set; }
+        Map Map { get; set; }
 
         public Game1()
         {
@@ -43,6 +41,7 @@ namespace roguelike.Core
             base.Initialize();
 
             Player = new PlayerEntity(this, _spriteBatch, new FireSword(this, _spriteBatch));
+            Map = new Map(this, _spriteBatch);
 
             Mobs.Add(new MediumDemon(this, _spriteBatch, Player));
             //Mobs.Add(new MediumSkeleton(this, _spriteBatch, Player));
@@ -51,8 +50,6 @@ namespace roguelike.Core
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            Map = Content.Load<Texture2D>("MAP");
 
             camera = new Camera();
         }
@@ -96,7 +93,7 @@ namespace roguelike.Core
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
 
@@ -104,7 +101,7 @@ namespace roguelike.Core
 
             _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, camera.Transform);
 
-            _spriteBatch.Draw(Map, Vector2.Zero, Color.White);
+            Map.Draw(gameTime);
 
             foreach (Entity entity in Mobs)
             {
