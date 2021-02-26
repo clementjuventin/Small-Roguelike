@@ -11,6 +11,7 @@ namespace roguelike.Core.WeaponPackage
     {
         public FireSword(Game game, SpriteBatch spriteBatch) : base(game, spriteBatch)
         {
+            Damages = 5;
         }
 
         protected override void LoadContent()

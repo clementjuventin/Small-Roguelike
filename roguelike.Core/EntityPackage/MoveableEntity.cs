@@ -18,7 +18,7 @@ namespace roguelike.Core.EntityPackage
         public int Dexterity { get; set; }
         public int Level { get; set; }
         public int Armor { get; set; }
-        public float CriticalChange { get; set; }
+        public float CriticalChance { get; set; }
         protected Vector2 Velocity { get => velocity; set => velocity = value; }
         public Vector2 Force { get; set; } = Vector2.Zero;
         public float ForceCoeff { get; set; }

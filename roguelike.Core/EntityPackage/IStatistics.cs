@@ -13,6 +13,6 @@ namespace roguelike.Core.EntityPackage
         int Level { get; set; }
         int Armor { get; set; }
 
-        float CriticalChange { get; set; }
+        float CriticalChance { get; set; }
     }
 }

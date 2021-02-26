@@ -24,7 +24,7 @@ namespace roguelike.Core.EntityPackage
         {
             if (isHitting)
             {
-                WeaponHitBox = new Rectangle((int) Position.X + EntitySprite.SpriteWidth/2 * (IsOnRight?1:-3), (int) Position.Y - EntitySprite.SpriteHeight, EntitySprite.SpriteWidth, EntitySprite.SpriteHeight * 2);
+                WeaponHitBox = new Rectangle((int)Position.X + EntitySprite.SpriteWidth / 2 * (IsOnRight ? 1 : -3), (int)Position.Y - EntitySprite.SpriteHeight, EntitySprite.SpriteWidth, EntitySprite.SpriteHeight * 2);
                 WeaponAngle = 0.3f * (IsOnRight? -1:1);
                 Weapon.Sprite.AnimationManager.Angle = 0.3f * (IsOnRight ? -1 : 1);
             }
@@ -37,6 +37,8 @@ namespace roguelike.Core.EntityPackage
         }
         public override void Update(GameTime gameTime)
         {
+            if (Rectangle.Empty != WeaponHitBox) WeaponHitBox = Rectangle.Empty;
+
             base.Update(gameTime);
 
             Weapon.IsOnRight = !IsOnRight;
@@ -44,6 +46,7 @@ namespace roguelike.Core.EntityPackage
             float xOffset;
             float yOffset = Position.Y - EntitySprite.SpriteHeight / 6;
             float len = EntitySprite.SpriteWidth * 3;
+            float rotation = Dexterity / 100f;
 
             float relativeAngle = 0;
 
@@ -52,8 +55,8 @@ namespace roguelike.Core.EntityPackage
                 xOffset = Position.X + EntitySprite.SpriteWidth * 2;
                 if (IsHitting())
                 {
-                    Weapon.Sprite.AnimationManager.Angle -= 0.1f * 2;
-                    WeaponAngle -= 0.1f;
+                    Weapon.Sprite.AnimationManager.Angle -= rotation * 2;
+                    WeaponAngle -= rotation;
                 }
             }
             else
@@ -62,8 +65,8 @@ namespace roguelike.Core.EntityPackage
                 relativeAngle = (float) Math.PI;
                 if (IsHitting())
                 {
-                    Weapon.Sprite.AnimationManager.Angle += 0.1f * 2;
-                    WeaponAngle += 0.1f;
+                    Weapon.Sprite.AnimationManager.Angle += rotation * 2;
+                    WeaponAngle += rotation;
                 }
             }
             if((WeaponAngle <(float) - Math.PI/5 && !IsOnRight) || (WeaponAngle > (float) Math.PI / 5 && IsOnRight))
@@ -77,7 +80,6 @@ namespace roguelike.Core.EntityPackage
             {
 
             }
-        
         }
 
         public override void Draw(GameTime gameTime)
@@ -85,16 +87,6 @@ namespace roguelike.Core.EntityPackage
             base.Draw(gameTime);
 
             Weapon.Draw(gameTime);
-
-            Texture2D rect = new Texture2D(GraphicsDevice, 80, 30);
-
-            Color[] data = new Color[80 * 30];
-            for (int i = 0; i < data.Length; ++i) data[i] = Color.Chocolate;
-            rect.SetData(data);
-
-
-            SpriteBatch.Draw(rect, WeaponHitBox, Color.White);
-            
         }
         public override void Move()
         {
@@ -105,6 +97,11 @@ namespace roguelike.Core.EntityPackage
                 SetIsHitting(true);
             }
                 
+        }
+
+        public int GetDamages()
+        {   
+            return Weapon.Damages + Damages;
         }
     }
 }

@@ -71,7 +71,7 @@ namespace roguelike.Core
             {
                 foreach (Entity entity in allEntities)
                 {
-                    entity.CollisionHandler(Player.WeaponHitBox);
+                    entity.CollisionHandler(Player.WeaponHitBox,Player.GetDamages());
                 }
             }
             /*

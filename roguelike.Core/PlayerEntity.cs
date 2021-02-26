@@ -12,7 +12,16 @@ namespace roguelike.Core
 {
     class PlayerEntity : WeaponHolder
     {
-        public PlayerEntity(Game game, SpriteBatch spriteBatch, Weapon weapon) : base(game, spriteBatch, weapon, speed:3f) { }
+        public PlayerEntity(Game game, SpriteBatch spriteBatch, Weapon weapon) : base(game, spriteBatch, weapon, speed:3f) 
+        {
+            HealthPoints = 100;
+            Damages = 3;
+            Vitality = 1;
+            Dexterity = 5;
+            Armor = 5;
+            Level = 1;
+            CriticalChance = 0.1f;
+        }
 
         protected override void LoadContent()
         {
