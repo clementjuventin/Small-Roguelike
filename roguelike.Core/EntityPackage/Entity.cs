@@ -39,7 +39,7 @@ namespace roguelike.Core.EntityPackage
             {
                 var dir =  Position -new Vector2(other.Center.X, other.Center.Y);
                 dir.Normalize();
-                Vector2 direction = Velocity * 25-dmg * (-dir);
+                Vector2 direction = (25-dmg) * dir;
                 base.AddForce(0.85f, direction);
             }
         }
@@ -61,13 +61,13 @@ namespace roguelike.Core.EntityPackage
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
-            
+            /*
             Texture2D rect = new Texture2D(GraphicsDevice, 80, 30);
             Color[] data = new Color[80 * 30];
             for (int i = 0; i < data.Length; ++i) data[i] = Color.Beige;
             rect.SetData(data);
             SpriteBatch.Draw(rect, HitBox, Color.White);
-            
+            */
 
             if (EntitySprite.AnimationManager != null)
                 if (IsOnRight) EntitySprite.AnimationManager.Draw(SpriteBatch, SpriteEffects.None);
