@@ -20,7 +20,7 @@ namespace roguelike.Core
             Dexterity = 5;
             Armor = 5;
             Level = 1;
-            CriticalChange = 0.1f;
+            CriticalChance = 0.1f;
         }
 
         protected override void LoadContent()

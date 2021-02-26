@@ -32,14 +32,14 @@ namespace roguelike.Core.EntityPackage
             }
         }
 
-        public void CollisionHandler(Rectangle other)
+        public void CollisionHandler(Rectangle other,int dmg)
         {
             if (other == HitBox) return;
             if (HitBox.Intersects(other))
             {
                 var dir =  Position -new Vector2(other.Center.X, other.Center.Y);
                 dir.Normalize();
-                Vector2 direction = Velocity * 20 * (-dir);
+                Vector2 direction = Velocity * 25-dmg * (-dir);
                 base.AddForce(0.85f, direction);
             }
         }
@@ -108,5 +108,11 @@ namespace roguelike.Core.EntityPackage
                 IsOnRight = false;
             }
         }
+
+        public void TakeDamage()
+        {
+
+        }
     }
+
 }

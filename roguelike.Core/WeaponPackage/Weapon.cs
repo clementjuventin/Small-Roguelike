@@ -9,11 +9,12 @@ using System.Text;
 
 namespace roguelike.Core.WeaponPackage
 {
-    public class Weapon : DrawableGameComponent
+    public class Weapon : DrawableGameComponent,IStatisticsWeapon
     {
         public EntitySprite Sprite { get; set; } = new EntitySprite();
         public SpriteBatch SpriteBatch { get; set; }
         public Boolean IsOnRight { get; set; }
+        public int Damages { get; set; }
         public Weapon(Game game, SpriteBatch spriteBatch) : base(game)
         {
             SpriteBatch = spriteBatch;

@@ -6,13 +6,15 @@ using System.Text;
 
 namespace roguelike.Core.EntityPackage
 {
-    public class MobEntity : Entity
+    public class MobEntity : Entity,IStatistics
     {
         public Entity Target { get; set; }
         public Vector2 Distance { get; set; }
         public float Rotation { get; set; }
         public Vector2 Direction {get;set;}
         public float FollowDistance { get; set; }
+
+
 
         public MobEntity(Game game, SpriteBatch spriteBatch, float scale = 1, float speed = 2) : this(game, spriteBatch, null, scale, speed) { }
         public MobEntity(Game game, SpriteBatch spriteBatch, Entity target, float scale = 1, float speed = 2, float followDistance = 20f) : base(game, spriteBatch, scale, speed)

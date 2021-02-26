@@ -106,5 +106,10 @@ namespace roguelike.Core.EntityPackage
             }
                 
         }
+
+        public int GetDamages()
+        {   
+            return Weapon.Damages + Damages;
+        }
     }
 }
