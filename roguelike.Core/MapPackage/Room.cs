@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using roguelike.Core.EntityPackage;
+using roguelike.Core.Mobs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,15 +12,15 @@ namespace roguelike.Core.MapPackage
     public class Room : DrawableGameComponent
     {
         private TmxMap map;
-        public TmxMap GetMap() { return map; }
+
+        public static PlayerEntity Player { get; set; }
+        public List<Entity> Mobs { get; set; }
 
         private Texture2D tileset;
 
         private int tileWidth;
         private int tileHeight;
 
-        public int GetTileWidth() { return tileWidth; }
-        public int GetTileHeight() { return tileHeight; }
         private int tilesetTilesWide;
         private int tilesetTilesHigh;
 
@@ -35,17 +37,52 @@ namespace roguelike.Core.MapPackage
             RoomType = type;
             Position = position;
             Neighbour = new List<Room>();
+            Mobs = new List<Entity>();
 
             LoadContent();
+            BuildRoom();
         }
         public void AddNeighbour(Room neighbour)
         {
             if (Neighbour.Contains(neighbour)) return;
             Neighbour.Add(neighbour);
         }
-        public void BuildRoom()
+        private void BuildRoom()
         {
+            Mobs.Add(new MediumDemon(Game, SpriteBatch, Player));
+        }
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+            foreach (Entity entity in Mobs)
+            {
+                entity.Update(gameTime);
+            }
+            List<Entity> allEntities = new List<Entity>(Mobs);
 
+            if (Player.IsHitting())
+            {
+                foreach (Entity entity in allEntities)
+                {
+                    entity.CollisionHandler(Player.WeaponHitBox, Player.GetDamages());
+                }
+            }
+            allEntities.Add(Player);
+
+            foreach (Entity entity in allEntities)
+            {
+                int offsetX = ((map.Width - 3) *tileWidth) / 2 - entity.EntitySprite.SpriteWidth;
+                int offsetY = ((map.Height - 3) * tileHeight) / 2 - entity.EntitySprite.SpriteHeight;
+                if (entity.Position.X > offsetX)
+                    entity.Position = new Vector2(offsetX, entity.Position.Y);
+                else if (entity.Position.X < -offsetX)
+                    entity.Position = new Vector2(-offsetX, entity.Position.Y);
+
+                if (entity.Position.Y > offsetY)
+                    entity.Position = new Vector2(entity.Position.X, offsetY);
+                else if (entity.Position.Y < -offsetY)
+                    entity.Position = new Vector2(entity.Position.X, -offsetY);
+            }
         }
         protected override void LoadContent()
         {
@@ -86,6 +123,10 @@ namespace roguelike.Core.MapPackage
 
                     SpriteBatch.Draw(tileset,new Rectangle((int)x-centerX, (int)y-centerY, tileWidth, tileHeight), tilesetRec, Color.White);
                 }
+            }
+            foreach (Entity entity in Mobs)
+            {
+                entity.Draw(gameTime);
             }
         }
     }

@@ -8,7 +8,7 @@ using System.Text;
 
 namespace roguelike.Core.EntityPackage
 {
-    class WeaponHolder : Entity
+    public class WeaponHolder : Entity
     {
         public Weapon Weapon { get; set; }
         public Boolean IsOnAttack { get; set; }

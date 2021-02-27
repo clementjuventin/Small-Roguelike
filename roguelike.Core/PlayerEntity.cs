@@ -10,7 +10,7 @@ using System.Text;
 
 namespace roguelike.Core
 {
-    class PlayerEntity : WeaponHolder
+    public class PlayerEntity : WeaponHolder
     {
         public PlayerEntity(Game game, SpriteBatch spriteBatch, Weapon weapon) : base(game, spriteBatch, weapon, speed:3f) 
         {
@@ -31,11 +31,6 @@ namespace roguelike.Core
             {
                 {"Idle", new Animation(Game.Content.Load<Texture2D>("playerSprite/knightPlayer"),8) }
             };
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
         }
 
         protected override void SetAnimations()
