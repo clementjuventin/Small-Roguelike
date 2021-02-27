@@ -7,6 +7,7 @@ using roguelike.Core.MapPackage;
 using roguelike.Core.Mobs;
 using roguelike.Core.WeaponPackage;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace roguelike.Core
 {
@@ -24,7 +25,7 @@ namespace roguelike.Core
 
         private Camera camera;
 
-        Map Map { get; set; }
+        AdventureManager AV { get; set; }
 
         public Game1()
         {
@@ -41,7 +42,7 @@ namespace roguelike.Core
             base.Initialize();
 
             Player = new PlayerEntity(this, _spriteBatch, new FireSword(this, _spriteBatch));
-            Map = new Map(this, _spriteBatch);
+            AV = new AdventureManager(this, _spriteBatch);
 
             Mobs.Add(new MediumDemon(this, _spriteBatch, Player));
             //Mobs.Add(new MediumSkeleton(this, _spriteBatch, Player));
@@ -74,6 +75,7 @@ namespace roguelike.Core
                     entity.CollisionHandler(Player.WeaponHitBox,Player.GetDamages());
                 }
             }
+            allEntities.Add(Player);
             /*
             allEntities.Add(Player);
 
@@ -86,6 +88,22 @@ namespace roguelike.Core
                 entity.UpdatePosition();
             }
             */
+            foreach (Entity entity in allEntities)
+            {
+                int offsetX = ((AV.CurrentRoom.GetMap().Width -3)* AV.CurrentRoom.GetTileWidth() ) / 2 - entity.EntitySprite.SpriteWidth;
+                int offsetY = ((AV.CurrentRoom.GetMap().Height -3)* AV.CurrentRoom.GetTileHeight() ) / 2 - entity.EntitySprite.SpriteHeight;
+                if (entity.Position.X > offsetX)
+                    entity.Position = new Vector2(offsetX, entity.Position.Y);
+                else if (entity.Position.X < -offsetX)
+                    entity.Position= new Vector2(-offsetX, entity.Position.Y);
+
+                if (entity.Position.Y > offsetY)
+                    entity.Position = new Vector2(entity.Position.X, offsetY);
+                else if (entity.Position.Y < -offsetY)
+                    entity.Position = new Vector2(entity.Position.X, -offsetY);
+            }
+
+
             camera.Follow(Player);
 
             base.Update(gameTime);
@@ -101,7 +119,7 @@ namespace roguelike.Core
 
             _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, camera.Transform);
 
-            Map.Draw(gameTime);
+            AV.CurrentRoom.Draw(gameTime);
 
             foreach (Entity entity in Mobs)
             {

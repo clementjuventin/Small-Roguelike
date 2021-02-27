@@ -18,14 +18,23 @@ namespace roguelike.Core.MapPackage
         private int _maxOutry = 1;
         private int _outryCount = 0;
 
-        public ModelBuilder(int ray = 20, Double propagationCoeff = 0.9999f, Double outryCoeff = 0.1f)
+        public SpriteBatch SpriteBatch { get; set; }
+        public Game Game { get; set; }
+
+        public Room Entry { get; set; }
+
+        public ModelBuilder(Game game, SpriteBatch spriteBatch, int ray = 20, Double propagationCoeff = 0.9999f, Double outryCoeff = 0.1f)
         {
             Ray = ray;
             Size = 2 * ray + 1;
             Rooms = new Room[Size, Size];
             Randomizer = new Random();
 
-            Rooms[Ray, Ray] = new Room(RoomType.Entry, Vector2.Zero);
+            Game = game;
+            SpriteBatch = spriteBatch;
+
+            Entry = new Room(Game, SpriteBatch,RoomType.Entry, Vector2.Zero);
+            Rooms[Ray, Ray] = Entry;
             List<Vector2> neighbourPosition = new List<Vector2>()
             {
                 new Vector2(0,1),
@@ -47,11 +56,11 @@ namespace roguelike.Core.MapPackage
 
             if (Randomizer.NextDouble() > propagationCoeff)
             {
-                if (_outryCount < _maxOutry) { AppendRoom(new Room(RoomType.Outry, position)); _outryCount++; }
-                else AppendRoom(new Room(RoomType.Casual, position));
+                if (_outryCount < _maxOutry) { AppendRoom(new Room(Game, SpriteBatch, RoomType.Outry, position)); _outryCount++; }
+                else AppendRoom(new Room(Game, SpriteBatch, RoomType.Casual, position));
                 return;
             }
-            room = AppendRoom(new Room(RoomType.Casual, position));
+            room = AppendRoom(new Room(Game, SpriteBatch, RoomType.Casual, position));
 
             availablePosition = GetAvailablePosition(room);
             foreach (Vector2 available in availablePosition)
