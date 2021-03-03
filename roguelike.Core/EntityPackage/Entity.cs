@@ -28,23 +28,23 @@ namespace roguelike.Core.EntityPackage
         {
             get
             {
-                return new Rectangle((int)Position.X - EntitySprite.SpriteWidth/2, (int)Position.Y - EntitySprite.SpriteHeight / 2, EntitySprite.SpriteWidth, EntitySprite.SpriteHeight);
+                return new Rectangle((int)Position.X - EntitySprite.SpriteWidth / 2, (int)Position.Y - EntitySprite.SpriteHeight / 2, EntitySprite.SpriteWidth, EntitySprite.SpriteHeight);
             }
         }
 
-        public void CollisionHandler(Rectangle other,int dmg)
+        public void CollisionHandler(Rectangle other)
         {
             if (other == HitBox) return;
             if (HitBox.Intersects(other))
             {
-                var dir =  Position -new Vector2(other.Center.X, other.Center.Y);
+                Vector2 dir = Position - new Vector2(other.Center.X, other.Center.Y);
                 dir.Normalize();
-                Vector2 direction = (25-dmg) * dir;
+                Vector2 direction = (50) * dir;
                 base.AddForce(0.85f, direction);
             }
         }
 
-        public Entity(Game game, SpriteBatch spriteBatch, float scale=1f, float speed=5f) : base(game, speed)
+        public Entity(Game game, SpriteBatch spriteBatch, float scale = 1f, float speed = 5f) : base(game, speed)
         {
             EntitySprite = new EntitySprite();
             SpriteBatch = spriteBatch;
@@ -109,10 +109,11 @@ namespace roguelike.Core.EntityPackage
             }
         }
 
-        public void TakeDamage()
+        public void TakeDamage(int dmg)
         {
-
+                this.HealthPoints -= dmg;        
         }
+
     }
 
 }

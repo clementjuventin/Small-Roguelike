@@ -10,7 +10,7 @@ namespace roguelike.Core.Mobs
 {
     public class MediumDemon : MobEntity
     {
-        public MediumDemon(Game game, SpriteBatch spriteBatch, Entity target) : base(game, spriteBatch, target, 1, followDistance:20f) {
+        public MediumDemon(Game game, SpriteBatch spriteBatch, Entity target ): base(game, spriteBatch, target, 1, followDistance:20f) {
             HealthPoints = 50;
             Damages = 1;
             Vitality = 1;

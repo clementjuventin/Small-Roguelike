@@ -43,6 +43,19 @@ namespace roguelike.Core.EntityPackage
             }
             else velocity = Vector2.Zero;
         }
+
+        public void HitHandler(Rectangle other, int dmg)
+        {
+            if (other == HitBox) return;
+            if (HitBox.Intersects(other))
+            {
+                var dir = Position - new Vector2(other.Center.X, other.Center.Y);
+                dir.Normalize();
+                Vector2 direction = (25 - dmg) * dir;
+                base.AddForce(0.85f, direction);
+                this.TakeDamage(dmg);
+            }
+        }
         public virtual void Follow(float t)
         {
             velocity = Direction * t;

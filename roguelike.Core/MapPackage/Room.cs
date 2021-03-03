@@ -14,7 +14,7 @@ namespace roguelike.Core.MapPackage
         private TmxMap map;
 
         public static PlayerEntity Player { get; set; }
-        public List<Entity> Mobs { get; set; }
+        public List<MobEntity> Mobs { get; set; }
 
         private Texture2D tileset;
 
@@ -38,7 +38,7 @@ namespace roguelike.Core.MapPackage
             RoomType = type;
             Position = position;
             Neighbour = new List<Room>();
-            Mobs = new List<Entity>();
+            Mobs = new List<MobEntity>();
 
             LoadContent();
             BuildRoom();
@@ -50,24 +50,41 @@ namespace roguelike.Core.MapPackage
         }
         private void BuildRoom()
         {
-            Mobs.Add(new MediumDemon(Game, SpriteBatch, Player));
+             Mobs.Add(new MediumDemon(Game, SpriteBatch, Player));
+            Mobs.Add(new MediumSkeleton(Game, SpriteBatch, Player));
+
         }
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            foreach (Entity entity in Mobs)
+            foreach (MobEntity entity in Mobs)
             {
-                entity.Update(gameTime);
-            }
-            List<Entity> allEntities = new List<Entity>(Mobs);
-
-            if (Player.IsHitting())
-            {
-                foreach (Entity entity in allEntities)
+                foreach (MobEntity entity2 in Mobs)
                 {
-                    entity.CollisionHandler(Player.WeaponHitBox, Player.GetDamages());
+                    entity2.CollisionHandler(entity.HitBox);
                 }
             }
+
+            foreach (MobEntity entity in new List<MobEntity>(Mobs))
+            {
+                entity.Update(gameTime);
+                if (Player.IsHitting())
+                {
+                    entity.HitHandler(Player.WeaponHitBox, Player.GetDamages());
+                }
+                if (entity.HealthPoints<=0)
+                {
+                    Mobs.Remove(entity);
+                }
+
+
+
+            }
+
+
+                List<Entity> allEntities = new List<Entity>(Mobs);
+
+           
             allEntities.Add(Player);
 
             foreach (Entity entity in allEntities)
@@ -83,6 +100,7 @@ namespace roguelike.Core.MapPackage
                     entity.Position = new Vector2(entity.Position.X, offsetY);
                 else if (entity.Position.Y < -offsetY)
                     entity.Position = new Vector2(entity.Position.X, -offsetY);
+
             }
         }
         protected override void LoadContent()
