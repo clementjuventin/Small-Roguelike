@@ -10,4 +10,11 @@ namespace roguelike.Core.MapPackage
         Outry,
         Casual
     }
+    public enum Direction
+    {
+        Top,
+        Bot,
+        Left,
+        Right
+    }
 }

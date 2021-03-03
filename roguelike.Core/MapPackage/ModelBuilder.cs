@@ -103,8 +103,8 @@ namespace roguelike.Core.MapPackage
                 neighbour = GetRoomFromBasePosition(position);
                 if (neighbour != null)
                 {
-                    neighbour.AddNeighbour(currentRoom);
-                    currentRoom.AddNeighbour(neighbour);
+                    neighbour.AddNeighbour(currentRoom, GetDirection(neighbour, currentRoom));
+                    currentRoom.AddNeighbour(neighbour, GetDirection(neighbour, currentRoom));
                     continue;
                 }
                 availablePosition.Add(position);
@@ -147,6 +147,11 @@ namespace roguelike.Core.MapPackage
                     spriteBatch.Draw(rect, new Rectangle((int)room.Position.X*16,(int)room.Position.Y*16, 16,16), Color.White);
                 }
             }
+        }
+        private Direction GetDirection(Room one, Room other)
+        {
+
+            return Direction.Bot;
         }
     }
 }

@@ -33,6 +33,11 @@ namespace roguelike.Core
             };
         }
 
+        public Boolean CollideDoor(Rectangle door)
+        {
+            return HitBox.Intersects(door);
+        }
+
         protected override void SetAnimations()
         {
             base.SetAnimations();

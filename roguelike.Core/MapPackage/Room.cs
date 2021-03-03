@@ -24,29 +24,45 @@ namespace roguelike.Core.MapPackage
         private int tilesetTilesWide;
         private int tilesetTilesHigh;
 
-        Rectangle bounds;
+        public Boolean RoomDone { get; set; }
         public SpriteBatch SpriteBatch { get; set; }
         public RoomType RoomType { get; set; }
         public Vector2 Position { get; set; }
-        public List<Room> Neighbour { get; set; }
-        public Rectangle[] Doors { get; set; } = new Rectangle[4];
+        public Dictionary<Room, Rectangle> DoorRoom { get; set; }
         public Room(Game game, SpriteBatch spriteBatch, RoomType type, Vector2 position) : base(game)
         {
             SpriteBatch = spriteBatch;
-            bounds = new Rectangle(0, 0, 0, 0);
 
             RoomType = type;
             Position = position;
-            Neighbour = new List<Room>();
+            DoorRoom = new Dictionary<Room, Rectangle>();
+
             Mobs = new List<Entity>();
+            RoomDone = false;
 
             LoadContent();
             BuildRoom();
         }
-        public void AddNeighbour(Room neighbour)
+        public void AddNeighbour(Room neighbour, Direction dir)
         {
-            if (Neighbour.Contains(neighbour)) return;
-            Neighbour.Add(neighbour);
+            if (DoorRoom.ContainsKey(neighbour)) return;
+            switch (dir)
+            {
+                case Direction.Top:
+                    DoorRoom.Add(neighbour, new Rectangle(tilesetTilesHigh, tileHeight, 32, 16));
+                    break;
+                case Direction.Bot:
+                    DoorRoom.Add(neighbour, new Rectangle(tilesetTilesHigh, tileHeight, 32, 16));
+                    break;
+                case Direction.Left:
+                    DoorRoom.Add(neighbour, new Rectangle(tilesetTilesHigh, tileHeight, 32, 16));
+                    break;
+                case Direction.Right:
+                    DoorRoom.Add(neighbour, new Rectangle(tilesetTilesHigh, tileHeight, 32, 16));
+                    break;
+                default:
+                    break;
+            }
         }
         private void BuildRoom()
         {
@@ -84,6 +100,24 @@ namespace roguelike.Core.MapPackage
                 else if (entity.Position.Y < -offsetY)
                     entity.Position = new Vector2(entity.Position.X, -offsetY);
             }
+            /*
+            for (int i = 0; i < Doors.Length; i++)
+            {
+                if (RoomDone && Player.CollideDoor(Doors[i]))
+                {
+                    switch (i)
+                    {
+                        /*
+                        case 0;
+                            break;
+                        default:
+                            break;
+                       
+                    }
+                }
+
+            */
+            
         }
         protected override void LoadContent()
         {
