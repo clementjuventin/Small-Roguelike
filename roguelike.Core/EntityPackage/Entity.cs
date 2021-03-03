@@ -34,12 +34,16 @@ namespace roguelike.Core.EntityPackage
 
         public void CollisionHandler(Rectangle other)
         {
-            if (other == HitBox) return;
-            if (HitBox.Intersects(other))
+            if (other == HitBox)
+            {
+                Random r = new Random();
+                Vector2 direction = new Vector2(r.Next(-other.Width, other.Width), r.Next(-other.Height, other.Height))/100;
+                base.AddForce(0.85f, direction);
+            }
+            else if(HitBox.Intersects(other))
             {
                 Vector2 dir = Position - new Vector2(other.Center.X, other.Center.Y);
-                dir.Normalize();
-                Vector2 direction = (50) * dir;
+                Vector2 direction = dir / 100;
                 base.AddForce(0.85f, direction);
             }
         }

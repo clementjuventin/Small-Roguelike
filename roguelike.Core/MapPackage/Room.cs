@@ -50,9 +50,14 @@ namespace roguelike.Core.MapPackage
         }
         private void BuildRoom()
         {
-             Mobs.Add(new MediumDemon(Game, SpriteBatch, Player));
+            Mobs.Add(new MediumDemon(Game, SpriteBatch, Player));
             Mobs.Add(new MediumSkeleton(Game, SpriteBatch, Player));
 
+            Random r = new Random();
+            foreach(Entity ett in Mobs)
+            {
+                ett.Position = new Vector2(r.Next(-tileWidth*10*16, tileWidth*10*16), r.Next(-tileWidth * 10 * 16, tileWidth * 10 * 16));
+            }
         }
         public override void Update(GameTime gameTime)
         {
