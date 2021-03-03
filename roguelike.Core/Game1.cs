@@ -21,8 +21,6 @@ namespace roguelike.Core
 
         private PlayerEntity Player { get; set; }
 
-        private List<Entity> Mobs { get; set; } = new List<Entity>();
-
         private Camera camera;
 
         AdventureManager AV { get; set; }
@@ -44,7 +42,6 @@ namespace roguelike.Core
             Player = new PlayerEntity(this, _spriteBatch, new FireSword(this, _spriteBatch));
             AV = new AdventureManager(this, _spriteBatch, Player);
 
-            Mobs.Add(new MediumDemon(this, _spriteBatch, Player));
             //Mobs.Add(new MediumSkeleton(this, _spriteBatch, Player));
         }
 

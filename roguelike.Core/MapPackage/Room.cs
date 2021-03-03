@@ -29,6 +29,7 @@ namespace roguelike.Core.MapPackage
         public RoomType RoomType { get; set; }
         public Vector2 Position { get; set; }
         public List<Room> Neighbour { get; set; }
+        public Rectangle[] Doors { get; set; } = new Rectangle[4];
         public Room(Game game, SpriteBatch spriteBatch, RoomType type, Vector2 position) : base(game)
         {
             SpriteBatch = spriteBatch;
