@@ -106,8 +106,11 @@ namespace roguelike.Core.MapPackage
             foreach (KeyValuePair<Room, Rectangle> kv in DoorRoom)
             {
                 if (Player.CollideDoor(kv.Value))
+                {
                     Player.Position = Vector2.Zero;
                     AV.CurrentRoom = kv.Key;
+                }
+                    
             }
         }
         protected override void LoadContent()

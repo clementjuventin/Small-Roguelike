@@ -8,12 +8,19 @@ using TiledSharp;
 
 namespace roguelike.Core.MapPackage
 {
-    public class Map
+    public class Map : DrawableGameComponent
     {
         public ModelBuilder ModelBuilder { get; set; }
-        public Map(Game game, SpriteBatch spriteBatch, AdventureManager av)
+        public SpriteBatch SpriteBatch { get; set; }
+        public Map(Game game, SpriteBatch spriteBatch, AdventureManager av) : base(game)
         {
             ModelBuilder = new ModelBuilder(game, spriteBatch, av);
+            SpriteBatch = spriteBatch;
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            ModelBuilder.Draw(SpriteBatch, GraphicsDevice);
         }
     }
 }
