@@ -23,8 +23,11 @@ namespace roguelike.Core.MapPackage
 
         public Room Entry { get; set; }
 
-        public ModelBuilder(Game game, SpriteBatch spriteBatch, int ray = 20, Double propagationCoeff = 0.9999f, Double outryCoeff = 0.1f)
+        public AdventureManager AV { get; set; }
+
+        public ModelBuilder(Game game, SpriteBatch spriteBatch, AdventureManager av, int ray = 20, Double propagationCoeff = 0.9999f, Double outryCoeff = 0.1f)
         {
+            AV = av;
             Ray = ray;
             Size = 2 * ray + 1;
             Rooms = new Room[Size, Size];
@@ -33,7 +36,7 @@ namespace roguelike.Core.MapPackage
             Game = game;
             SpriteBatch = spriteBatch;
 
-            Entry = new Room(Game, SpriteBatch,RoomType.Entry, Vector2.Zero);
+            Entry = new Room(Game, SpriteBatch,RoomType.Entry, Vector2.Zero, AV);
             Rooms[Ray, Ray] = Entry;
             List<Vector2> neighbourPosition = new List<Vector2>()
             {
@@ -56,11 +59,11 @@ namespace roguelike.Core.MapPackage
 
             if (Randomizer.NextDouble() > propagationCoeff)
             {
-                if (_outryCount < _maxOutry) { AppendRoom(new Room(Game, SpriteBatch, RoomType.Outry, position)); _outryCount++; }
-                else AppendRoom(new Room(Game, SpriteBatch, RoomType.Casual, position));
+                if (_outryCount < _maxOutry) { AppendRoom(new Room(Game, SpriteBatch, RoomType.Outry, position, AV)); _outryCount++; }
+                else AppendRoom(new Room(Game, SpriteBatch, RoomType.Casual, position, AV));
                 return;
             }
-            room = AppendRoom(new Room(Game, SpriteBatch, RoomType.Casual, position));
+            room = AppendRoom(new Room(Game, SpriteBatch, RoomType.Casual, position, AV));
 
             availablePosition = GetAvailablePosition(room);
             foreach (Vector2 available in availablePosition)
@@ -104,7 +107,7 @@ namespace roguelike.Core.MapPackage
                 if (neighbour != null)
                 {
                     neighbour.AddNeighbour(currentRoom, GetDirection(neighbour, currentRoom));
-                    currentRoom.AddNeighbour(neighbour, GetDirection(neighbour, currentRoom));
+                    currentRoom.AddNeighbour(neighbour, GetDirection(currentRoom, neighbour));
                     continue;
                 }
                 availablePosition.Add(position);
@@ -150,8 +153,24 @@ namespace roguelike.Core.MapPackage
         }
         private Direction GetDirection(Room one, Room other)
         {
-
-            return Direction.Bot;
+            Vector2 direction = other.Position - one.Position;
+            if (direction.X == 1)
+            {
+                return Direction.Left;
+            }
+            else if(direction.X == -1)
+            {
+                return Direction.Right;
+            }
+            else if (direction.Y == 1)
+            {
+                return Direction.Top;
+            }
+            else if (direction.Y == -1)
+            {
+                return Direction.Bot;
+            }
+            throw new Exception("False direction");
         }
     }
 }

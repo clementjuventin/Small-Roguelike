@@ -29,8 +29,10 @@ namespace roguelike.Core.MapPackage
         public RoomType RoomType { get; set; }
         public Vector2 Position { get; set; }
         public Dictionary<Room, Rectangle> DoorRoom { get; set; }
-        public Room(Game game, SpriteBatch spriteBatch, RoomType type, Vector2 position) : base(game)
+        public AdventureManager AV { get; set; }
+        public Room(Game game, SpriteBatch spriteBatch, RoomType type, Vector2 position, AdventureManager av) : base(game)
         {
+            AV = av;
             SpriteBatch = spriteBatch;
 
             RoomType = type;
@@ -49,16 +51,16 @@ namespace roguelike.Core.MapPackage
             switch (dir)
             {
                 case Direction.Top:
-                    DoorRoom.Add(neighbour, new Rectangle(tilesetTilesHigh, tileHeight, 32, 16));
+                    DoorRoom.Add(neighbour, new Rectangle(-16, -tileHeight * 8, 32, 16));
                     break;
                 case Direction.Bot:
-                    DoorRoom.Add(neighbour, new Rectangle(tilesetTilesHigh, tileHeight, 32, 16));
+                    DoorRoom.Add(neighbour, new Rectangle(-16, tileHeight * 8 - 16, 32, 16));
                     break;
                 case Direction.Left:
-                    DoorRoom.Add(neighbour, new Rectangle(tilesetTilesHigh, tileHeight, 32, 16));
+                    DoorRoom.Add(neighbour, new Rectangle(-tileWidth * 8, -16, 16, 32));
                     break;
                 case Direction.Right:
-                    DoorRoom.Add(neighbour, new Rectangle(tilesetTilesHigh, tileHeight, 32, 16));
+                    DoorRoom.Add(neighbour, new Rectangle(tileWidth * 8 -16, -16, 16, 32));
                     break;
                 default:
                     break;
@@ -100,24 +102,13 @@ namespace roguelike.Core.MapPackage
                 else if (entity.Position.Y < -offsetY)
                     entity.Position = new Vector2(entity.Position.X, -offsetY);
             }
-            /*
-            for (int i = 0; i < Doors.Length; i++)
-            {
-                if (RoomDone && Player.CollideDoor(Doors[i]))
-                {
-                    switch (i)
-                    {
-                        /*
-                        case 0;
-                            break;
-                        default:
-                            break;
-                       
-                    }
-                }
 
-            */
-            
+            foreach (KeyValuePair<Room, Rectangle> kv in DoorRoom)
+            {
+                if (Player.CollideDoor(kv.Value))
+                    Player.Position = Vector2.Zero;
+                    AV.CurrentRoom = kv.Key;
+            }
         }
         protected override void LoadContent()
         {
@@ -162,6 +153,15 @@ namespace roguelike.Core.MapPackage
             foreach (Entity entity in Mobs)
             {
                 entity.Draw(gameTime);
+            }
+
+            foreach (KeyValuePair<Room, Rectangle> kv in DoorRoom)
+            {
+                Texture2D rect = new Texture2D(GraphicsDevice, 80, 30);
+                Color[] data = new Color[80 * 30];
+                for (int i = 0; i < data.Length; ++i) data[i] = Color.Beige;
+                rect.SetData(data);
+                SpriteBatch.Draw(rect, kv.Value, Color.White);
             }
         }
     }

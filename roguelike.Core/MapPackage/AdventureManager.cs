@@ -7,7 +7,7 @@ using System.Text;
 
 namespace roguelike.Core.MapPackage
 {
-    class AdventureManager
+    public class AdventureManager
     {
         public Map CurrentMap { get; set; }
         public Room CurrentRoom { get; set; }
@@ -15,7 +15,7 @@ namespace roguelike.Core.MapPackage
         public AdventureManager(Game game, SpriteBatch spriteBatch, PlayerEntity player)
         {
             Room.Player = player;
-            CurrentMap = new Map(game, spriteBatch);
+            CurrentMap = new Map(game, spriteBatch, this);
             CurrentRoom = CurrentMap.ModelBuilder.Entry;
         }
     }

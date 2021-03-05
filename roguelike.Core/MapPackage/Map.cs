@@ -8,12 +8,12 @@ using TiledSharp;
 
 namespace roguelike.Core.MapPackage
 {
-    class Map
+    public class Map
     {
         public ModelBuilder ModelBuilder { get; set; }
-        public Map(Game game, SpriteBatch spriteBatch)
+        public Map(Game game, SpriteBatch spriteBatch, AdventureManager av)
         {
-            ModelBuilder = new ModelBuilder(game, spriteBatch);
+            ModelBuilder = new ModelBuilder(game, spriteBatch, av);
         }
     }
 }
