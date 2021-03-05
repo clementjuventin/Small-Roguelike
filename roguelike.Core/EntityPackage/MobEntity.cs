@@ -13,8 +13,19 @@ namespace roguelike.Core.EntityPackage
         public float Rotation { get; set; }
         public Vector2 Direction {get;set;}
         public float FollowDistance { get; set; }
+        public Rectangle AttaqueHitBox { get; set; }
+        private Boolean _isHitting;
+        private TimeSpan time { get; set; }
+        public Boolean IsHitting() { return _isHitting; }
 
-
+        public void SetIsHitting(Boolean isHitting)
+        {
+            if (isHitting)
+            {
+                
+            }
+            _isHitting = isHitting;
+        }
 
         public MobEntity(Game game, SpriteBatch spriteBatch, float scale = 1, float speed = 2) : this(game, spriteBatch, null, scale, speed) { }
         public MobEntity(Game game, SpriteBatch spriteBatch, Entity target, float scale = 1, float speed = 2, float followDistance = 20f) : base(game, spriteBatch, scale, speed)
@@ -42,20 +53,13 @@ namespace roguelike.Core.EntityPackage
                 Follow(t);
             }
             else velocity = Vector2.Zero;
+
+            AttaqueHitBox = new Rectangle((int)Position.X, (int)Position.Y, EntitySprite.SpriteWidth / 3, EntitySprite.SpriteHeight / 3);
         }
 
-        public void HitHandler(Rectangle other, int dmg)
-        {
-            if (other == HitBox) return;
-            if (HitBox.Intersects(other))
-            {
-                var dir = Position - new Vector2(other.Center.X, other.Center.Y);
-                dir.Normalize();
-                Vector2 direction = (25 - dmg) * dir;
-                base.AddForce(0.85f, direction);
-                this.TakeDamage(dmg);
-            }
-        }
+
+        
+
         public virtual void Follow(float t)
         {
             velocity = Direction * t;

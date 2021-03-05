@@ -47,6 +47,21 @@ namespace roguelike.Core.EntityPackage
                 base.AddForce(0.85f, direction);
             }
         }
+        public void HitHandler(Rectangle other, int dmg)
+        {
+            if (other == HitBox) return;
+            if (HitBox.Intersects(other))
+            {
+                var dir = Position - new Vector2(other.Center.X, other.Center.Y);
+                dir.Normalize();
+                Vector2 direction = (25 - dmg) * dir;
+                base.AddForce(0.85f, direction);
+                this.TakeDamage(dmg);
+            }
+        }
+
+  
+
 
         public Entity(Game game, SpriteBatch spriteBatch, float scale = 1f, float speed = 5f) : base(game, speed)
         {
