@@ -15,17 +15,22 @@ namespace roguelike.Core.EntityPackage
         public float FollowDistance { get; set; }
         public Rectangle AttaqueHitBox { get; set; }
         private Boolean _isHitting;
-        private TimeSpan time { get; set; }
         public Boolean IsHitting() { return _isHitting; }
+
+        private DateTime time= DateTime.Now.AddSeconds(6);
+
+        private DateTime now;
 
         public void SetIsHitting(Boolean isHitting)
         {
             if (isHitting)
             {
-                
+                //AttaqueHitBox = new Rectangle((int)Position.X, (int)Position.Y, EntitySprite.SpriteWidth / 3, EntitySprite.SpriteHeight / 3);
+                AttaqueHitBox = HitBox;
             }
             _isHitting = isHitting;
         }
+
 
         public MobEntity(Game game, SpriteBatch spriteBatch, float scale = 1, float speed = 2) : this(game, spriteBatch, null, scale, speed) { }
         public MobEntity(Game game, SpriteBatch spriteBatch, Entity target, float scale = 1, float speed = 2, float followDistance = 20f) : base(game, spriteBatch, scale, speed)
@@ -33,6 +38,29 @@ namespace roguelike.Core.EntityPackage
             FollowDistance = followDistance;
             Target = target;
         }
+
+
+        public override void Update(GameTime gameTime)
+        {
+            now = DateTime.Now;
+            if (Rectangle.Empty != AttaqueHitBox)
+            {
+                AttaqueHitBox = Rectangle.Empty;
+            }
+
+            base.Update(gameTime);
+
+
+
+
+            if (time <= now)
+            {
+                SetIsHitting(true);
+                time = DateTime.Now.AddSeconds(3- Dexterity/50);
+            }
+        }
+
+           
 
         public override void Move()
         {
@@ -54,11 +82,19 @@ namespace roguelike.Core.EntityPackage
             }
             else velocity = Vector2.Zero;
 
-            AttaqueHitBox = new Rectangle((int)Position.X, (int)Position.Y, EntitySprite.SpriteWidth / 3, EntitySprite.SpriteHeight / 3);
         }
+        /*
+        public override void Draw(GameTime gameTime)
+        {
+            base.Draw(gameTime);
 
-
-        
+            Texture2D rect = new Texture2D(GraphicsDevice, 80, 30);
+            Color[] data = new Color[80 * 30];
+            for (int i = 0; i < data.Length; ++i) data[i] = Color.Beige;
+            rect.SetData(data);
+            SpriteBatch.Draw(rect, AttaqueHitBox, Color.White);
+        }
+       */
 
         public virtual void Follow(float t)
         {
@@ -66,3 +102,7 @@ namespace roguelike.Core.EntityPackage
         }
     }
 }
+
+
+
+

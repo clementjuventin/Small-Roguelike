@@ -77,18 +77,22 @@ namespace roguelike.Core.MapPackage
                 {
                     entity.HitHandler(Player.WeaponHitBox, Player.GetDamages());
                 }
+
                 if (entity.HealthPoints<=0)
                 {
                     Mobs.Remove(entity);
                 }
 
-                Player.HitHandler(entity.AttaqueHitBox,entity.Damages);
-                
+                if (entity.IsHitting())
+                {
+                    Player.HitHandler(entity.AttaqueHitBox, entity.Damages);
+                }
+                         
                 if (Player.HealthPoints <= 0)
                 {
                     Mobs.Remove(entity);
                 }
-*/
+
 
             }
 
