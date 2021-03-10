@@ -10,13 +10,20 @@ namespace roguelike.Core.MapPackage
     public class AdventureManager
     {
         public Map CurrentMap { get; set; }
-        public Room CurrentRoom { get; set; }
+        private Room currentRoom; 
+        public Room GetCurrentRoom() { return currentRoom; }
+        public void SetCurrentRoom(Room room)
+        {
+            if(currentRoom!= null) currentRoom.UnsetCurrentRoom();
+            currentRoom = room;
+            currentRoom.SetCurrentRoom();
+        }
 
         public AdventureManager(Game game, SpriteBatch spriteBatch, PlayerEntity player)
         {
             Room.Player = player;
             CurrentMap = new Map(game, spriteBatch, this);
-            CurrentRoom = CurrentMap.ModelBuilder.Entry;
+            SetCurrentRoom(CurrentMap.ModelBuilder.Entry);
         }
     }
 }

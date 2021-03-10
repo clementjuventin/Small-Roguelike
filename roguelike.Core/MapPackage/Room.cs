@@ -30,6 +30,8 @@ namespace roguelike.Core.MapPackage
         public Vector2 Position { get; set; }
         public Dictionary<Room, Rectangle> DoorRoom { get; set; }
         public AdventureManager AV { get; set; }
+
+        public Texture2D TextureMap { get; set; }
         public Room(Game game, SpriteBatch spriteBatch, RoomType type, Vector2 position, AdventureManager av) : base(game)
         {
             AV = av;
@@ -44,23 +46,58 @@ namespace roguelike.Core.MapPackage
 
             LoadContent();
             BuildRoom();
+
+            TextureMap = new Texture2D(GraphicsDevice, 16, 16);
+            UnsetCurrentRoom();
+        }
+        public void SetCurrentRoom()
+        {
+            Color[] data = new Color[16 * 16];
+            for (int i = 0; i < data.Length; ++i)
+            {
+                data[i] = Color.Gray;
+            }
+            TextureMap.SetData(data);
+        }
+        public void UnsetCurrentRoom()
+        {
+            Color[] data = new Color[16 * 16];
+            for (int i = 0; i < data.Length; ++i)
+            {
+                switch (RoomType)
+                {
+                    case RoomType.Entry:
+                        data[i] = Color.Blue;
+                        break;
+                    case RoomType.Outry:
+                        data[i] = Color.Red;
+                        break;
+                    default:
+                        data[i] = Color.White;
+                        break;
+                }
+            }
+            TextureMap.SetData(data);
         }
         public void AddNeighbour(Room neighbour, Direction dir)
         {
-            if (DoorRoom.ContainsKey(neighbour)) return;
+            foreach (Room room in DoorRoom.Keys)
+            {
+                if (Vector2.Equals(room.Position, neighbour.Position)) return;
+            }
             switch (dir)
             {
                 case Direction.Top:
-                    DoorRoom.Add(neighbour, new Rectangle(-16, -tileHeight * 8, 32, 16));
-                    break;
-                case Direction.Bot:
                     DoorRoom.Add(neighbour, new Rectangle(-16, tileHeight * 8 - 16, 32, 16));
                     break;
+                case Direction.Bot:
+                    DoorRoom.Add(neighbour, new Rectangle(-16, -tileHeight * 8, 32, 16));
+                    break;
                 case Direction.Left:
-                    DoorRoom.Add(neighbour, new Rectangle(-tileWidth * 8, -16, 16, 32));
+                    DoorRoom.Add(neighbour, new Rectangle(tileWidth * 8 - 16, -16, 16, 32));
                     break;
                 case Direction.Right:
-                    DoorRoom.Add(neighbour, new Rectangle(tileWidth * 8 -16, -16, 16, 32));
+                    DoorRoom.Add(neighbour, new Rectangle(-tileWidth * 8, -16, 16, 32));
                     break;
                 default:
                     break;
@@ -108,7 +145,7 @@ namespace roguelike.Core.MapPackage
                 if (Player.CollideDoor(kv.Value))
                 {
                     Player.Position = Vector2.Zero;
-                    AV.CurrentRoom = kv.Key;
+                    AV.SetCurrentRoom(kv.Key);
                 }
                     
             }

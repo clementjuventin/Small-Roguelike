@@ -20,7 +20,7 @@ namespace roguelike.Core.MapPackage
 
         public override void Draw(GameTime gameTime)
         {
-            ModelBuilder.Draw(SpriteBatch, GraphicsDevice);
+            ModelBuilder.Draw(SpriteBatch);
         }
     }
 }

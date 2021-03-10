@@ -60,7 +60,7 @@ namespace roguelike.Core
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            AV.CurrentRoom.Update(gameTime);
+            AV.GetCurrentRoom().Update(gameTime);
 
             Player.Update(gameTime);
 
@@ -89,7 +89,7 @@ namespace roguelike.Core
             switch (DrawMode)
             {
                 case DrawMode.Game:
-                    AV.CurrentRoom.Draw(gameTime);
+                    AV.GetCurrentRoom().Draw(gameTime);
                     Player.Draw(gameTime);
                     break;
                 case DrawMode.Map:

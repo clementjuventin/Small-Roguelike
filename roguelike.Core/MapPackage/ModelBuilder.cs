@@ -25,7 +25,10 @@ namespace roguelike.Core.MapPackage
 
         public AdventureManager AV { get; set; }
 
-        public ModelBuilder(Game game, SpriteBatch spriteBatch, AdventureManager av, int ray = 20, Double propagationCoeff = 0.9999f, Double outryCoeff = 0.1f)
+        public Texture2D RectDraw { get; set; }
+        public Rectangle RectagleDraw { get; set; }
+
+        public ModelBuilder(Game game, SpriteBatch spriteBatch, AdventureManager av, int ray = 10, Double propagationCoeff = 0.9999f, Double outryCoeff = 0.1f)
         {
             AV = av;
             Ray = ray;
@@ -51,6 +54,7 @@ namespace roguelike.Core.MapPackage
                 Build(Rooms[Ray, Ray], neighbour, propagationCoeff, outryCoeff);
             }
         }
+          
         private void Build(Room entry, Vector2 position, double propagationCoeff, double outryCoeff)
         {
             List<Vector2> availablePosition;
@@ -123,31 +127,13 @@ namespace roguelike.Core.MapPackage
             return new Vector2(v2.X - Ray, v2.Y - Ray);
         }
 
-        public void Draw(SpriteBatch spriteBatch, GraphicsDevice device)//For debug
+        public void Draw(SpriteBatch spriteBatch)
         {
-            Texture2D rect;
-            Color[] data;
-
             foreach (Room room in Rooms)
             {
                 if (room != null)
                 {
-                    rect = new Texture2D(device, 16, 16);
-                    data = new Color[16 * 16];
-                    switch (room.RoomType)
-                    {
-                        case RoomType.Entry:
-                            for (int i = 0; i < data.Length; ++i) data[i] = Color.Blue;
-                            break;
-                        case RoomType.Outry:
-                            for (int i = 0; i < data.Length; ++i) data[i] = Color.Red;
-                            break;
-                        default:
-                            for (int i = 0; i < data.Length; ++i) data[i] = Color.White;
-                            break;
-                    }
-                    rect.SetData(data);
-                    spriteBatch.Draw(rect, new Rectangle((int)room.Position.X*16,(int)room.Position.Y*16, 16,16), Color.White);
+                    spriteBatch.Draw(room.TextureMap, new Rectangle((int)room.Position.X * 16, (int)room.Position.Y * 16, 16, 16), Color.White);
                 }
             }
         }

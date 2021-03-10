@@ -22,7 +22,6 @@ namespace roguelike.Core.EntityPackage
             FollowDistance = followDistance;
             Target = target;
         }
-
         public override void Move()
         {
             if (Target == null) return;
