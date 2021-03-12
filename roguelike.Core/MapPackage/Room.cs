@@ -81,6 +81,7 @@ namespace roguelike.Core.MapPackage
         }
         public void AddNeighbour(Room neighbour, Direction dir)
         {
+            if (DoorRoom.Count >= 4) return;
             foreach (Room room in DoorRoom.Keys)
             {
                 if (Vector2.Equals(room.Position, neighbour.Position)) return;
@@ -110,6 +111,7 @@ namespace roguelike.Core.MapPackage
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+            RoomDone = (Mobs.Count == 0);
             foreach (Entity entity in Mobs)
             {
                 entity.Update(gameTime);
@@ -142,7 +144,7 @@ namespace roguelike.Core.MapPackage
 
             foreach (KeyValuePair<Room, Rectangle> kv in DoorRoom)
             {
-                if (Player.CollideDoor(kv.Value))
+                if (Player.CollideDoor(kv.Value) && RoomDone)
                 {
                     Player.Position = Vector2.Zero;
                     AV.SetCurrentRoom(kv.Key);

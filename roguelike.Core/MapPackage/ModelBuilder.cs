@@ -63,8 +63,18 @@ namespace roguelike.Core.MapPackage
 
             if (Randomizer.NextDouble() > propagationCoeff)
             {
-                if (_outryCount < _maxOutry) { AppendRoom(new Room(Game, SpriteBatch, RoomType.Outry, position, AV)); _outryCount++; }
-                else AppendRoom(new Room(Game, SpriteBatch, RoomType.Casual, position, AV));
+                if (_outryCount < _maxOutry)
+                {
+                    room = new Room(Game, SpriteBatch, RoomType.Outry, position, AV);
+                    AppendRoom(room); _outryCount++;
+                }
+                else
+                {
+                    room = new Room(Game, SpriteBatch, RoomType.Casual, position, AV);
+                    AppendRoom(room);
+                }
+                room.AddNeighbour(entry, GetDirection(room, entry));
+                entry.AddNeighbour(room, GetDirection(entry, room));
                 return;
             }
             room = AppendRoom(new Room(Game, SpriteBatch, RoomType.Casual, position, AV));
