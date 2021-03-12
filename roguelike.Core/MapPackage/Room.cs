@@ -39,7 +39,7 @@ namespace roguelike.Core.MapPackage
 
             RoomType = type;
             Position = position;
-            Neighbour = new List<Room>();
+
             Mobs = new List<MobEntity>();
             DoorRoom = new Dictionary<Room, Rectangle>();
             RoomDone = false;
@@ -152,7 +152,6 @@ namespace roguelike.Core.MapPackage
 
 
             }
-
 
             List<Entity> allEntities = new List<Entity>(Mobs);
 

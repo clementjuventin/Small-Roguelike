@@ -17,7 +17,11 @@ namespace roguelike.Core.EntityPackage
         private Boolean _isHitting;
         public Boolean IsHitting() { return _isHitting; }
 
-        private DateTime time= DateTime.Now.AddSeconds(6);
+        private DateTime time;
+        public void StartTime()
+        {
+            time = DateTime.Now.AddSeconds(3);
+        }
 
         private DateTime now;
 
@@ -50,9 +54,7 @@ namespace roguelike.Core.EntityPackage
 
             base.Update(gameTime);
 
-
-
-
+            if (time == null) return;
             if (time <= now)
             {
                 SetIsHitting(true);

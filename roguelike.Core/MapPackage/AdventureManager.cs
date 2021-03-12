@@ -16,6 +16,10 @@ namespace roguelike.Core.MapPackage
         {
             if(currentRoom!= null) currentRoom.UnsetCurrentRoom();
             currentRoom = room;
+            foreach (MobEntity mob in currentRoom.Mobs)
+            {
+                mob.StartTime();
+            }
             currentRoom.SetCurrentRoom();
         }
 
