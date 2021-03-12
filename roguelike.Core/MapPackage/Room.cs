@@ -52,6 +52,19 @@ namespace roguelike.Core.MapPackage
         {
             Mobs.Add(new MediumDemon(Game, SpriteBatch, Player));
             Mobs.Add(new MediumSkeleton(Game, SpriteBatch, Player));
+            Mobs.Add(new Stealth(Game, SpriteBatch, Player));
+            Mobs.Add(new Poison(Game, SpriteBatch, Player));
+            Mobs.Add(new Odds(Game, SpriteBatch, Player));
+            Mobs.Add(new NoMasked(Game, SpriteBatch, Player));
+            Mobs.Add(new Masked(Game, SpriteBatch, Player));
+            Mobs.Add(new Mud(Game, SpriteBatch, Player));
+            Mobs.Add(new Green(Game, SpriteBatch, Player));
+            Mobs.Add(new GreenMud(Game, SpriteBatch, Player));
+            Mobs.Add(new Angel(Game, SpriteBatch, Player));
+            Mobs.Add(new Tribute(Game, SpriteBatch, Player));
+            Mobs.Add(new BlueCandle(Game, SpriteBatch, Player));
+            Mobs.Add(new Candle(Game, SpriteBatch, Player));
+            Mobs.Add(new RedDemonWhiteEyes(Game, SpriteBatch, Player));
 
             Random r = new Random();
             foreach(Entity ett in Mobs)
