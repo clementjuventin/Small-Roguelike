@@ -23,8 +23,14 @@ namespace roguelike.Core.MapPackage
 
         public Room Entry { get; set; }
 
-        public ModelBuilder(Game game, SpriteBatch spriteBatch, int ray = 20, Double propagationCoeff = 0.9999f, Double outryCoeff = 0.1f)
+        public AdventureManager AV { get; set; }
+
+        public Texture2D RectDraw { get; set; }
+        public Rectangle RectagleDraw { get; set; }
+
+        public ModelBuilder(Game game, SpriteBatch spriteBatch, AdventureManager av, int ray = 10, Double propagationCoeff = 0.9999f, Double outryCoeff = 0.1f)
         {
+            AV = av;
             Ray = ray;
             Size = 2 * ray + 1;
             Rooms = new Room[Size, Size];
@@ -33,7 +39,7 @@ namespace roguelike.Core.MapPackage
             Game = game;
             SpriteBatch = spriteBatch;
 
-            Entry = new Room(Game, SpriteBatch,RoomType.Entry, Vector2.Zero);
+            Entry = new Room(Game, SpriteBatch,RoomType.Entry, Vector2.Zero, AV);
             Rooms[Ray, Ray] = Entry;
             List<Vector2> neighbourPosition = new List<Vector2>()
             {
@@ -48,6 +54,7 @@ namespace roguelike.Core.MapPackage
                 Build(Rooms[Ray, Ray], neighbour, propagationCoeff, outryCoeff);
             }
         }
+          
         private void Build(Room entry, Vector2 position, double propagationCoeff, double outryCoeff)
         {
             List<Vector2> availablePosition;
@@ -56,11 +63,21 @@ namespace roguelike.Core.MapPackage
 
             if (Randomizer.NextDouble() > propagationCoeff)
             {
-                if (_outryCount < _maxOutry) { AppendRoom(new Room(Game, SpriteBatch, RoomType.Outry, position)); _outryCount++; }
-                else AppendRoom(new Room(Game, SpriteBatch, RoomType.Casual, position));
+                if (_outryCount < _maxOutry)
+                {
+                    room = new Room(Game, SpriteBatch, RoomType.Outry, position, AV);
+                    AppendRoom(room); _outryCount++;
+                }
+                else
+                {
+                    room = new Room(Game, SpriteBatch, RoomType.Casual, position, AV);
+                    AppendRoom(room);
+                }
+                room.AddNeighbour(entry, GetDirection(room, entry));
+                entry.AddNeighbour(room, GetDirection(entry, room));
                 return;
             }
-            room = AppendRoom(new Room(Game, SpriteBatch, RoomType.Casual, position));
+            room = AppendRoom(new Room(Game, SpriteBatch, RoomType.Casual, position, AV));
 
             availablePosition = GetAvailablePosition(room);
             foreach (Vector2 available in availablePosition)
@@ -103,8 +120,8 @@ namespace roguelike.Core.MapPackage
                 neighbour = GetRoomFromBasePosition(position);
                 if (neighbour != null)
                 {
-                    neighbour.AddNeighbour(currentRoom);
-                    currentRoom.AddNeighbour(neighbour);
+                    neighbour.AddNeighbour(currentRoom, GetDirection(neighbour, currentRoom));
+                    currentRoom.AddNeighbour(neighbour, GetDirection(currentRoom, neighbour));
                     continue;
                 }
                 availablePosition.Add(position);
@@ -120,33 +137,36 @@ namespace roguelike.Core.MapPackage
             return new Vector2(v2.X - Ray, v2.Y - Ray);
         }
 
-        public void Draw(SpriteBatch spriteBatch, GraphicsDevice device)//For debug
+        public void Draw(SpriteBatch spriteBatch)
         {
-            Texture2D rect;
-            Color[] data;
-
             foreach (Room room in Rooms)
             {
                 if (room != null)
                 {
-                    rect = new Texture2D(device, 16, 16);
-                    data = new Color[16 * 16];
-                    switch (room.RoomType)
-                    {
-                        case RoomType.Entry:
-                            for (int i = 0; i < data.Length; ++i) data[i] = Color.Blue;
-                            break;
-                        case RoomType.Outry:
-                            for (int i = 0; i < data.Length; ++i) data[i] = Color.Red;
-                            break;
-                        default:
-                            for (int i = 0; i < data.Length; ++i) data[i] = Color.White;
-                            break;
-                    }
-                    rect.SetData(data);
-                    spriteBatch.Draw(rect, new Rectangle((int)room.Position.X*16,(int)room.Position.Y*16, 16,16), Color.White);
+                    spriteBatch.Draw(room.TextureMap, new Rectangle((int)room.Position.X * 16, (int)room.Position.Y * 16, 16, 16), Color.White);
                 }
             }
+        }
+        private Direction GetDirection(Room one, Room other)
+        {
+            Vector2 direction = other.Position - one.Position;
+            if (direction.X == 1)
+            {
+                return Direction.Left;
+            }
+            else if(direction.X == -1)
+            {
+                return Direction.Right;
+            }
+            else if (direction.Y == 1)
+            {
+                return Direction.Top;
+            }
+            else if (direction.Y == -1)
+            {
+                return Direction.Bot;
+            }
+            throw new Exception("False direction");
         }
     }
 }

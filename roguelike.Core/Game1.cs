@@ -6,6 +6,7 @@ using roguelike.Core.EntityPackage;
 using roguelike.Core.MapPackage;
 using roguelike.Core.Mobs;
 using roguelike.Core.WeaponPackage;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,6 +25,8 @@ namespace roguelike.Core
         private Camera camera;
 
         AdventureManager AV { get; set; }
+
+        public DrawMode DrawMode { get; set; }
 
         public Game1()
         {
@@ -57,30 +60,51 @@ namespace roguelike.Core
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            AV.CurrentRoom.Update(gameTime);
+            AV.GetCurrentRoom().Update(gameTime);
 
             Player.Update(gameTime);
 
             camera.Follow(Player);
 
+            SetDrawMode();
+
             base.Update(gameTime);
+        }
+
+        private void SetDrawMode()
+        {
+            DrawMode = DrawMode.Game;
+            if (Keyboard.GetState().IsKeyDown(Keys.M))
+                DrawMode = DrawMode.Map;
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
 
-            // TODO: Add your drawing code here
-
             base.Draw(gameTime);
 
             _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, camera.Transform);
 
-            AV.CurrentRoom.Draw(gameTime);
-
-            Player.Draw(gameTime);
-            //model.Draw(_spriteBatch, GraphicsDevice);
+            switch (DrawMode)
+            {
+                case DrawMode.Game:
+                    AV.GetCurrentRoom().Draw(gameTime);
+                    Player.Draw(gameTime);
+                    break;
+                case DrawMode.Map:
+                    AV.CurrentMap.Draw(gameTime);
+                    break;
+                default:
+                    break;
+            }
             _spriteBatch.End();
         }
+    }
+
+    public enum DrawMode
+    {
+        Game,
+        Map
     }
 }
