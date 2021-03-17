@@ -73,18 +73,6 @@
 /processorParam:TextureFormat=Color
 /build:mobSprite/big_potato.png
 
-#begin mobSprite/blue_candle.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:mobSprite/blue_candle.png
-
 #begin mobSprite/candle.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -120,18 +108,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:mobSprite/green.png
-
-#begin mobSprite/green_mud.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:mobSprite/green_mud.png
 
 #begin mobSprite/masked.png
 /importer:TextureImporter

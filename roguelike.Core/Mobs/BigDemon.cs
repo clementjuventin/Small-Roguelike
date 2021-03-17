@@ -8,19 +8,18 @@ using System.Text;
 
 namespace roguelike.Core.Mobs
 {
-    public class Candle : MobEntity
+    public class BigDemon : MobEntity
     {
-        public Candle(Game game, SpriteBatch spriteBatch, Entity target ): base(game, spriteBatch, target, 1, followDistance:20f) {
-            HealthPoints = 50;
-            Damages = 1;
-            Vitality = 1;
-            Dexterity = 2;
-            Armor = 2;
-            Level = 1;
+        public BigDemon(Game game, SpriteBatch spriteBatch, Entity target ): base(game, spriteBatch, target, 1, followDistance:20f) {
+            HealthPoints = 100+4*Level;
+            Damages = 6+2*Level;
+            Vitality = 12+1*Level;
+            Dexterity = 3+Level;
+            Armor = 8+1*Level;
             CriticalChance = 0.02f;
 
         }
-        public Candle(Game game, SpriteBatch spriteBatch) : this(game, spriteBatch, null) { }
+        public BigDemon(Game game, SpriteBatch spriteBatch) : this(game, spriteBatch, null) { }
 
         public Boolean IsOnAttack { get; set; } = false;
         protected override void LoadContent()
@@ -29,7 +28,7 @@ namespace roguelike.Core.Mobs
 
             EntitySprite.Animation = new Dictionary<string, Animation>()
             {
-                {"Idle", new Animation(Game.Content.Load<Texture2D>("mobSprite/candle"),8,frameSpeed:0.1f) }
+                {"Idle", new Animation(Game.Content.Load<Texture2D>("mobSprite/big_demon"),8,frameSpeed:0.1f) }
             };
         }
 

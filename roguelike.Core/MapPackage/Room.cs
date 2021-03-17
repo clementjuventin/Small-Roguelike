@@ -50,7 +50,7 @@ namespace roguelike.Core.MapPackage
         }
         private void BuildRoom()
         {
-            Mobs.Add(new MediumDemon(Game, SpriteBatch, Player));
+            /*Mobs.Add(new MediumDemon(Game, SpriteBatch, Player));
             Mobs.Add(new MediumSkeleton(Game, SpriteBatch, Player));
             Mobs.Add(new Stealth(Game, SpriteBatch, Player));
             Mobs.Add(new Poison(Game, SpriteBatch, Player));
@@ -59,12 +59,14 @@ namespace roguelike.Core.MapPackage
             Mobs.Add(new Masked(Game, SpriteBatch, Player));
             Mobs.Add(new Mud(Game, SpriteBatch, Player));
             Mobs.Add(new Green(Game, SpriteBatch, Player));
-            Mobs.Add(new GreenMud(Game, SpriteBatch, Player));
-            Mobs.Add(new Angel(Game, SpriteBatch, Player));
-            Mobs.Add(new Tribute(Game, SpriteBatch, Player));
-            Mobs.Add(new BlueCandle(Game, SpriteBatch, Player));
+            Mobs.Add(new BigGreen(Game, SpriteBatch, Player));*/
+            Mobs.Add(new Angel(Game, SpriteBatch, Player,1));
+            /*Mobs.Add(new Tribute(Game, SpriteBatch, Player));
+            Mobs.Add(new BigDemon(Game, SpriteBatch, Player));
             Mobs.Add(new Candle(Game, SpriteBatch, Player));
             Mobs.Add(new RedDemonWhiteEyes(Game, SpriteBatch, Player));
+            Mobs.Add(new BigPotato(Game, SpriteBatch, Player));*/
+
 
             Random r = new Random();
             foreach(Entity ett in Mobs)

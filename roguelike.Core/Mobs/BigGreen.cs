@@ -8,9 +8,9 @@ using System.Text;
 
 namespace roguelike.Core.Mobs
 {
-    public class GreenMud : MobEntity
+    public class BigGreen : MobEntity
     {
-        public GreenMud(Game game, SpriteBatch spriteBatch, Entity target ): base(game, spriteBatch, target, 1, followDistance:20f) {
+        public BigGreen(Game game, SpriteBatch spriteBatch, Entity target ): base(game, spriteBatch, target, 1, followDistance:20f) {
             HealthPoints = 50;
             Damages = 1;
             Vitality = 1;
@@ -20,7 +20,7 @@ namespace roguelike.Core.Mobs
             CriticalChance = 0.02f;
 
         }
-        public GreenMud(Game game, SpriteBatch spriteBatch) : this(game, spriteBatch, null) { }
+        public BigGreen(Game game, SpriteBatch spriteBatch) : this(game, spriteBatch, null) { }
 
         public Boolean IsOnAttack { get; set; } = false;
         protected override void LoadContent()
@@ -29,7 +29,7 @@ namespace roguelike.Core.Mobs
 
             EntitySprite.Animation = new Dictionary<string, Animation>()
             {
-                {"Idle", new Animation(Game.Content.Load<Texture2D>("mobSprite/green_mud"),4,frameSpeed:0.1f) }
+                {"Idle", new Animation(Game.Content.Load<Texture2D>("mobSprite/big_green"),8,frameSpeed:0.1f) }
             };
         }
 
