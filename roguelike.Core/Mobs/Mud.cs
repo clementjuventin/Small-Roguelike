@@ -29,7 +29,7 @@ namespace roguelike.Core.Mobs
 
             EntitySprite.Animation = new Dictionary<string, Animation>()
             {
-                {"Idle", new Animation(Game.Content.Load<Texture2D>("mobSprite/mud"),4,frameSpeed:0.1f) }
+                {"Idle", new Animation(Game.Content.Load<Texture2D>("mobSprite/mud"),8,frameSpeed:0.1f) }
             };
         }
 

@@ -176,7 +176,7 @@ namespace roguelike.Core.MapPackage
                 {
                     Player.HitHandler(entity.AttaqueHitBox, entity.Damages);
                 }
-                         
+
                 if (Player.HealthPoints <= 0)
                 {
                     Mobs.Remove(entity);
@@ -187,7 +187,7 @@ namespace roguelike.Core.MapPackage
 
             List<Entity> allEntities = new List<Entity>(Mobs);
 
-           
+
             allEntities.Add(Player);
 
             foreach (Entity entity in allEntities)
@@ -213,7 +213,7 @@ namespace roguelike.Core.MapPackage
                     Player.Position = Vector2.Zero;
                     AV.SetCurrentRoom(kv.Key);
                 }
-                    
+
             }
         }
         public override void Draw(GameTime gameTime)

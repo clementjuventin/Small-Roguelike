@@ -8,9 +8,9 @@ using System.Text;
 
 namespace roguelike.Core.Mobs
 {
-    public class BlueCandle : MobEntity
+    public class BigPotato : MobEntity
     {
-        public BlueCandle(Game game, SpriteBatch spriteBatch, Entity target ): base(game, spriteBatch, target, 1, followDistance:20f) {
+        public BigPotato(Game game, SpriteBatch spriteBatch, Entity target ): base(game, spriteBatch, target, 1, followDistance:20f) {
             HealthPoints = 50;
             Damages = 1;
             Vitality = 1;
@@ -20,7 +20,7 @@ namespace roguelike.Core.Mobs
             CriticalChance = 0.02f;
 
         }
-        public BlueCandle(Game game, SpriteBatch spriteBatch) : this(game, spriteBatch, null) { }
+        public BigPotato(Game game, SpriteBatch spriteBatch) : this(game, spriteBatch, null) { }
 
         public Boolean IsOnAttack { get; set; } = false;
         protected override void LoadContent()
@@ -29,7 +29,7 @@ namespace roguelike.Core.Mobs
 
             EntitySprite.Animation = new Dictionary<string, Animation>()
             {
-                {"Idle", new Animation(Game.Content.Load<Texture2D>("mobSprite/blue_candle"),4,frameSpeed:0.1f) }
+                {"Idle", new Animation(Game.Content.Load<Texture2D>("mobSprite/big_potato"),8,frameSpeed:0.1f) }
             };
         }
 
