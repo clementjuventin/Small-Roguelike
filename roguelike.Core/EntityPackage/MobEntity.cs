@@ -6,7 +6,7 @@ using System.Text;
 
 namespace roguelike.Core.EntityPackage
 {
-    public class MobEntity : Entity,IStatistics
+    public class MobEntity : Entity
     {
         public Entity Target { get; set; }
         public Vector2 Distance { get; set; }

@@ -4,6 +4,8 @@ using roguelike.Core.EntityPackage;
 using roguelike.Core.Mobs;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 using TiledSharp;
 
@@ -106,17 +108,30 @@ namespace roguelike.Core.MapPackage
         }
         private void BuildRoom()
         {
-            Random r = new Random();
+            switch (RoomType)
+            {
+                case RoomType.Entry:
+                    break;
+                case RoomType.Outry:
+                    break;
+                case RoomType.Casual:
+                    //Permet de récupérer les classes filles de MobEntity
+                    IEnumerable<Type> ChildClasses = Assembly.GetAssembly(typeof(MobEntity)).GetTypes().Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(MobEntity)));
+                    object[] paramArray = new object[] { Game, SpriteBatch, Player };
+                    Random r = new Random();
 
-            int mobCount = r.Next(2,5);
-            for (int i = 0; i < mobCount; i++)
-            {
-                Mobs.Add(new MediumDemon(Game, SpriteBatch, Player));
-                Mobs.Add(new MediumSkeleton(Game, SpriteBatch, Player));
-            }
-            foreach(Entity ett in Mobs)
-            {
-                ett.Position = new Vector2(r.Next(-tileWidth*10*16, tileWidth*10*16), r.Next(-tileWidth * 10 * 16, tileWidth * 10 * 16));
+                    int mobCount = r.Next(2, 5);
+                    for (int i = 0; i < mobCount; i++)
+                    {
+                        Mobs.Add((MobEntity)Activator.CreateInstance(ChildClasses.ElementAt(r.Next(0, ChildClasses.Count())), args: paramArray));
+                    }
+                    foreach (Entity ett in Mobs)
+                    {
+                        ett.Position = new Vector2(r.Next(-tileWidth * 10 * 16, tileWidth * 10 * 16), r.Next(-tileWidth * 10 * 16, tileWidth * 10 * 16));
+                    }
+                    break;
+                default:
+                    break;
             }
         }
         public override void Update(GameTime gameTime)
