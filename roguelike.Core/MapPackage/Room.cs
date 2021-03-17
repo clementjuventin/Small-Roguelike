@@ -30,8 +30,12 @@ namespace roguelike.Core.MapPackage
         public SpriteBatch SpriteBatch { get; set; }
         public RoomType RoomType { get; set; }
         public Vector2 Position { get; set; }
-        public Dictionary<Room, Rectangle> DoorRoom { get; set; }
+        public Dictionary<Room, Door> DoorRoom { get; set; }
         public AdventureManager AV { get; set; }
+
+        public Texture2D SimpleDoor { get; set; }
+        public Texture2D TopDoorClose { get; set; }
+        public Texture2D TopDoorOpen { get; set; }
 
         public Texture2D TextureMap { get; set; }
         public Room(Game game, SpriteBatch spriteBatch, RoomType type, Vector2 position, AdventureManager av) : base(game)
@@ -43,7 +47,7 @@ namespace roguelike.Core.MapPackage
             Position = position;
 
             Mobs = new List<MobEntity>();
-            DoorRoom = new Dictionary<Room, Rectangle>();
+            DoorRoom = new Dictionary<Room, Door>();
             RoomDone = false;
 
             LoadContent();
@@ -81,6 +85,23 @@ namespace roguelike.Core.MapPackage
             }
             TextureMap.SetData(data);
         }
+        protected override void LoadContent()
+        {
+            base.LoadContent();
+
+            SimpleDoor = Game.Content.Load<Texture2D>("doors/doorSimple");
+            TopDoorOpen = Game.Content.Load<Texture2D>("doors/doorTopOpen");
+            TopDoorClose = Game.Content.Load<Texture2D>("doors/doorTopClose");
+
+            map = new TmxMap("Content/room.tmx");
+            tileset = Game.Content.Load<Texture2D>(map.Tilesets[0].Name.ToString());
+
+            tileWidth = map.Tilesets[0].TileWidth;
+            tileHeight = map.Tilesets[0].TileHeight;
+
+            tilesetTilesWide = tileset.Width / tileWidth;
+            tilesetTilesHigh = tileset.Height / tileHeight;
+        }
         public void AddNeighbour(Room neighbour, Direction dir)
         {
             if (DoorRoom.Count >= 4) return;
@@ -88,23 +109,7 @@ namespace roguelike.Core.MapPackage
             {
                 if (Vector2.Equals(room.Position, neighbour.Position)) return;
             }
-            switch (dir)
-            {
-                case Direction.Top:
-                    DoorRoom.Add(neighbour, new Rectangle(-16, tileHeight * 8 - 16, 32, 16));
-                    break;
-                case Direction.Bot:
-                    DoorRoom.Add(neighbour, new Rectangle(-16, -tileHeight * 8, 32, 16));
-                    break;
-                case Direction.Left:
-                    DoorRoom.Add(neighbour, new Rectangle(tileWidth * 8 - 16, -16, 16, 32));
-                    break;
-                case Direction.Right:
-                    DoorRoom.Add(neighbour, new Rectangle(-tileWidth * 8, -16, 16, 32));
-                    break;
-                default:
-                    break;
-            }
+            DoorRoom.Add(neighbour, new Door(Game, SpriteBatch, dir, tileHeight, tileWidth));
         }
         private void BuildRoom()
         {
@@ -137,7 +142,15 @@ namespace roguelike.Core.MapPackage
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            RoomDone = (Mobs.Count == 0);
+            if(Mobs.Count == 0 && !RoomDone)
+            {
+                RoomDone = true;
+                foreach(Door d in DoorRoom.Values)
+                {
+                    d.Open();
+                }
+            }
+
             foreach (MobEntity entity in Mobs)
             {
                 foreach (MobEntity entity2 in Mobs)
@@ -193,28 +206,15 @@ namespace roguelike.Core.MapPackage
 
             }
 
-            foreach (KeyValuePair<Room, Rectangle> kv in DoorRoom)
+            foreach (KeyValuePair<Room, Door> kv in DoorRoom)
             {
-                if (Player.CollideDoor(kv.Value) && RoomDone)
+                if (Player.CollideDoor(kv.Value.HitBox) && RoomDone)
                 {
                     Player.Position = Vector2.Zero;
                     AV.SetCurrentRoom(kv.Key);
                 }
                     
             }
-        }
-        protected override void LoadContent()
-        {
-            base.LoadContent();
-
-            map = new TmxMap("Content/room.tmx");
-            tileset = Game.Content.Load<Texture2D>(map.Tilesets[0].Name.ToString());
-
-            tileWidth = map.Tilesets[0].TileWidth;
-            tileHeight = map.Tilesets[0].TileHeight;
-
-            tilesetTilesWide = tileset.Width / tileWidth;
-            tilesetTilesHigh = tileset.Height / tileHeight;
         }
         public override void Draw(GameTime gameTime)
         {
@@ -248,13 +248,9 @@ namespace roguelike.Core.MapPackage
                 entity.Draw(gameTime);
             }
 
-            foreach (KeyValuePair<Room, Rectangle> kv in DoorRoom)
+            foreach (KeyValuePair<Room, Door> kv in DoorRoom)
             {
-                Texture2D rect = new Texture2D(GraphicsDevice, 80, 30);
-                Color[] data = new Color[80 * 30];
-                for (int i = 0; i < data.Length; ++i) data[i] = Color.Beige;
-                rect.SetData(data);
-                SpriteBatch.Draw(rect, kv.Value, Color.White);
+                kv.Value.Draw(gameTime);
             }
         }
     }
