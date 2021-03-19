@@ -10,7 +10,7 @@ namespace roguelike.Core.Mobs
 {
     public class Angel : MobEntity
     {
-        public Angel(Game game, SpriteBatch spriteBatch, Entity target , int level): base(game, spriteBatch, target, 1, followDistance:20f) {
+        public Angel(Game game, SpriteBatch spriteBatch, Entity target): base(game, spriteBatch, target, 1, followDistance:20f) {
             HealthPoints = 1;
             Damages = 1;
             Vitality = 1;
@@ -20,7 +20,6 @@ namespace roguelike.Core.Mobs
             Speed = 4;
 
         }
-        public Angel(Game game, SpriteBatch spriteBatch) : this(game, spriteBatch, null,1) { }
 
         public Boolean IsOnAttack { get; set; } = false;
         protected override void LoadContent()
