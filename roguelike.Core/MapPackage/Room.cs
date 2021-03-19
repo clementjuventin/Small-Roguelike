@@ -89,7 +89,6 @@ namespace roguelike.Core.MapPackage
         {
             base.LoadContent();
 
-            SimpleDoor = Game.Content.Load<Texture2D>("doors/doorSimple");
             TopDoorOpen = Game.Content.Load<Texture2D>("doors/doorTopOpen");
             TopDoorClose = Game.Content.Load<Texture2D>("doors/doorTopClose");
 
